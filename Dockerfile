@@ -11,12 +11,13 @@ ENV KC_HTTP_RELATIVE_PATH=/
 ENV KC_HOSTNAME_STRICT=false
 ENV KC_PROXY=edge
 ENV KC_HTTP_ENABLED=true
+ENV KC_CACHE=local
 
 # Copiar arquivo de configuracao do realm
 COPY keycloak/realm-config.json /opt/keycloak/data/import/realm-config.json
 
-# Build do Keycloak com configuracoes
-RUN /opt/keycloak/bin/kc.sh build
+# Build do Keycloak com configuracoes para cache local
+RUN /opt/keycloak/bin/kc.sh build --cache=local
 
 # Expor porta
 EXPOSE 8080

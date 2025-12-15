@@ -194,7 +194,8 @@ Roles: [user]
 Alias: google
 Client ID: [SEU_GOOGLE_CLIENT_ID]
 Client Secret: [SEU_GOOGLE_SECRET]
-Redirect URI: http://localhost:8080/realms/keycloak-poc/broker/google/endpoint
+Redirect URI Produção: https://keycloack-poc.onrender.com/realms/keycloak-poc/broker/google/endpoint
+Redirect URI Local: http://localhost:8080/realms/keycloak-poc/broker/google/endpoint
 ```
 
 ## Metodos Principais
@@ -266,11 +267,21 @@ sequenceDiagram
 ## Variaveis de Ambiente
 
 ```typescript
-// src/environments/environment.ts
+// src/environments/environment.ts (Produção)
+export const environment = {
+  production: true,
+  keycloak: {
+    url: 'https://keycloack-poc.onrender.com',
+    realm: 'keycloak-poc',
+    clientId: 'angular-client'
+  }
+};
+
+// src/environments/environment.development.ts (Desenvolvimento)
 export const environment = {
   production: false,
   keycloak: {
-    url: 'http://localhost:8080',
+    url: 'https://keycloack-poc.onrender.com',  // Ou http://localhost:8080 para ambiente local
     realm: 'keycloak-poc',
     clientId: 'angular-client'
   }

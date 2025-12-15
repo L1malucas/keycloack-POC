@@ -1,7 +1,7 @@
 export const environment = {
   production: true,
   keycloak: {
-    url: 'http://localhost:8080',
+    url: 'https://keycloack-poc.onrender.com',
     realm: 'keycloak-poc',
     clientId: 'angular-client'
   },

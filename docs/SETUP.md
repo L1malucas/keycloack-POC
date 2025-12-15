@@ -13,7 +13,8 @@ Aguardar: `Keycloak 23.0.4 started`
 
 ## 2. Acessar Console
 
-http://localhost:8080 → Administration Console
+**Produção (Render):** https://keycloack-poc.onrender.com → Administration Console
+**Local:** http://localhost:8080 → Administration Console
 
 Login: `admin` / `admin`
 
@@ -121,6 +122,7 @@ Aba Role mapping:
 4. Credentials → Create OAuth client ID
    - Type: Web application
    - Authorized redirect URIs:
+     https://keycloack-poc.onrender.com/realms/keycloak-poc/broker/google/endpoint
      http://localhost:8080/realms/keycloak-poc/broker/google/endpoint
    - Copiar Client ID e Client Secret
 ```
@@ -140,7 +142,7 @@ Trust email: ON
 
 ## Checklist
 
-- [ ] Keycloak rodando: http://localhost:8080
+- [ ] Keycloak rodando: https://keycloack-poc.onrender.com (Produção) ou http://localhost:8080 (Local)
 - [ ] Realm `keycloak-poc` criado
 - [ ] Client `angular-client` configurado
 - [ ] Roles `admin` e `user` criadas
