@@ -3,10 +3,34 @@
     <h1>Keycloak POC - Home</h1>
   </div>
 
+  <div style="border: 1px solid #007bff; background-color: #e7f3ff; padding: 15px; margin-bottom: 20px;">
+    <h3 style="margin-top: 0;">Documentacao</h3>
+    <div style="display: flex; flex-direction: column; gap: 8px;">
+      <a href="https://github.com/L1malucas/keycloack-POC/blob/main/docs/SETUP.md" target="_blank" style="color: #007bff; text-decoration: none;">
+        Setup Keycloak - Passo a passo de configuracao
+      </a>
+      <a href="https://github.com/L1malucas/keycloack-POC/blob/main/docs/DOCS.md" target="_blank" style="color: #007bff; text-decoration: none;">
+        Documentacao Completa - Fluxos e diagramas
+      </a>
+      <a href="https://github.com/L1malucas/keycloack-POC/blob/main/docs/RESUMO.md" target="_blank" style="color: #007bff; text-decoration: none;">
+        Resumo - Checklist de funcionalidades implementadas
+      </a>
+      <a href="https://www.keycloak.org/documentation" target="_blank" style="color: #007bff; text-decoration: none;">
+        Keycloak Docs - Documentacao oficial
+      </a>
+    </div>
+    <p style="margin-top: 10px; margin-bottom: 0; font-size: 12px; color: #666;">
+      Docs tambem disponiveis localmente em: /docs/
+    </p>
+  </div>
+
   <div *ngIf="!isAuthenticated" style="text-align: center; margin-top: 50px;">
     <h2>Bem-vindo</h2>
     <p>Voce nao esta autenticado.</p>
-    <a routerLink="/login" style="display: inline-block; padding: 10px 20px; border: 1px solid #000; text-decoration: none; color: #000;">
+    <p style="margin-top: 20px; color: #666; font-size: 14px;">
+      Antes de fazer login, configure o Keycloak seguindo o guia de setup (ver secao Documentacao acima)
+    </p>
+    <a routerLink="/login" style="display: inline-block; padding: 10px 20px; border: 1px solid #000; text-decoration: none; color: #000; margin-top: 10px;">
       Fazer Login
     </a>
   </div>
