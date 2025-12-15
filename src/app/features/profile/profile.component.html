@@ -1,0 +1,90 @@
+<div style="padding: 20px;">
+  <div style="border-bottom: 1px solid #ccc; padding-bottom: 10px; margin-bottom: 20px;">
+    <h1>Meu Perfil</h1>
+    <a routerLink="/" style="text-decoration: none; color: #007bff;">Voltar para Home</a>
+  </div>
+
+  <div *ngIf="userProfile" style="border: 1px solid #ccc; padding: 20px;">
+    <h2>Informacoes Detalhadas</h2>
+
+    <div style="margin-bottom: 15px;">
+      <h3>Dados Basicos</h3>
+      <table style="width: 100%; border-collapse: collapse;">
+        <tr style="border-bottom: 1px solid #eee;">
+          <td style="padding: 8px; font-weight: bold;">ID:</td>
+          <td style="padding: 8px;">{{ userProfile.id }}</td>
+        </tr>
+        <tr style="border-bottom: 1px solid #eee;">
+          <td style="padding: 8px; font-weight: bold;">Username:</td>
+          <td style="padding: 8px;">{{ userProfile.username }}</td>
+        </tr>
+        <tr style="border-bottom: 1px solid #eee;">
+          <td style="padding: 8px; font-weight: bold;">Email:</td>
+          <td style="padding: 8px;">{{ userProfile.email }}</td>
+        </tr>
+        <tr style="border-bottom: 1px solid #eee;">
+          <td style="padding: 8px; font-weight: bold;">Nome Completo:</td>
+          <td style="padding: 8px;">{{ userProfile.firstName }} {{ userProfile.lastName }}</td>
+        </tr>
+        <tr style="border-bottom: 1px solid #eee;">
+          <td style="padding: 8px; font-weight: bold;">Email Verificado:</td>
+          <td style="padding: 8px;">{{ userProfile.emailVerified ? 'Sim' : 'Nao' }}</td>
+        </tr>
+      </table>
+    </div>
+
+    <div style="margin-bottom: 15px;">
+      <h3>Roles do Realm</h3>
+      <div *ngIf="userProfile.realmRoles && userProfile.realmRoles.length > 0">
+        <ul>
+          <li *ngFor="let role of userProfile.realmRoles">{{ role }}</li>
+        </ul>
+      </div>
+      <p *ngIf="!userProfile.realmRoles || userProfile.realmRoles.length === 0">
+        Nenhuma role atribuida
+      </p>
+    </div>
+
+    <div style="margin-bottom: 15px;" *ngIf="userProfile.attributes">
+      <h3>Atributos</h3>
+      <table style="width: 100%; border-collapse: collapse;">
+        <tr *ngFor="let attr of userProfile.attributes | keyvalue" style="border-bottom: 1px solid #eee;">
+          <td style="padding: 8px; font-weight: bold;">{{ attr.key }}:</td>
+          <td style="padding: 8px;">{{ formatAttributeValue(attr.value) }}</td>
+        </tr>
+      </table>
+    </div>
+  </div>
+
+  <div style="margin-top: 30px; border: 1px solid #ccc; padding: 20px;">
+    <h2>Gestao de Tokens</h2>
+
+    <div style="margin-bottom: 15px;">
+      <h3>Access Token</h3>
+      <div style="background-color: #f5f5f5; padding: 10px; word-break: break-all; font-size: 11px; font-family: monospace;">
+        {{ token }}
+      </div>
+    </div>
+
+    <div style="margin-bottom: 15px;">
+      <h3>Refresh Token</h3>
+      <div style="background-color: #f5f5f5; padding: 10px; word-break: break-all; font-size: 11px; font-family: monospace;">
+        {{ refreshToken }}
+      </div>
+    </div>
+
+    <button (click)="refreshTokenManual()" style="padding: 10px 20px; cursor: pointer; background-color: #007bff; color: white; border: none;">
+      Atualizar Token Manualmente
+    </button>
+  </div>
+
+  <div style="margin-top: 20px; padding: 15px; background-color: #f8f9fa; border-left: 4px solid #007bff;">
+    <h4>Informacoes sobre Tokens</h4>
+    <ul style="margin: 10px 0; padding-left: 20px;">
+      <li>Os tokens sao atualizados automaticamente a cada 60 segundos</li>
+      <li>O Access Token expira em 5 minutos (configuravel no Keycloak)</li>
+      <li>O Refresh Token permite renovar o Access Token</li>
+      <li>Todos os tokens sao armazenados em memoria (nao em cookies ou localStorage)</li>
+    </ul>
+  </div>
+</div>

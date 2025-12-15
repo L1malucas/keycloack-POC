@@ -1,0 +1,21 @@
+<div style="max-width: 400px; margin: 100px auto; padding: 20px; border: 1px solid #ccc;">
+  <h1>Login</h1>
+
+  <div style="margin-top: 20px;">
+    <button
+      (click)="login()"
+      style="width: 100%; padding: 10px; margin-bottom: 10px; cursor: pointer;">
+      Login com Keycloak
+    </button>
+
+    <button
+      (click)="loginWithGoogle()"
+      style="width: 100%; padding: 10px; cursor: pointer;">
+      Login com Google
+    </button>
+  </div>
+
+  <div style="margin-top: 20px; font-size: 12px; color: #666;">
+    <p>O login com Google requer configuracao de Identity Provider no Keycloak</p>
+  </div>
+</div>

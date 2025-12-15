@@ -1,0 +1,100 @@
+<div style="padding: 20px;">
+  <div style="border-bottom: 1px solid #ccc; padding-bottom: 10px; margin-bottom: 20px;">
+    <h1>Painel Admin</h1>
+    <a routerLink="/" style="text-decoration: none; color: #007bff;">Voltar para Home</a>
+  </div>
+
+  <div *ngIf="error" style="padding: 15px; background-color: #f8d7da; border: 1px solid #f5c6cb; color: #721c24; margin-bottom: 20px;">
+    {{ error }}
+  </div>
+
+  <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
+    <div>
+      <h2>Usuarios</h2>
+
+      <div *ngIf="loading" style="text-align: center; padding: 20px;">
+        Carregando usuarios...
+      </div>
+
+      <div *ngIf="!loading" style="border: 1px solid #ccc;">
+        <table style="width: 100%; border-collapse: collapse;">
+          <thead>
+            <tr style="background-color: #f8f9fa;">
+              <th style="padding: 10px; text-align: left; border-bottom: 2px solid #ccc;">Username</th>
+              <th style="padding: 10px; text-align: left; border-bottom: 2px solid #ccc;">Email</th>
+              <th style="padding: 10px; text-align: left; border-bottom: 2px solid #ccc;">Acao</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let user of users"
+                [style.background-color]="selectedUser?.id === user.id ? '#e7f3ff' : 'white'"
+                style="border-bottom: 1px solid #eee;">
+              <td style="padding: 10px;">{{ user.username }}</td>
+              <td style="padding: 10px;">{{ user.email }}</td>
+              <td style="padding: 10px;">
+                <button (click)="selectUser(user)" style="padding: 5px 10px; cursor: pointer;">
+                  Gerenciar
+                </button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <div>
+      <h2>Gestao de Roles</h2>
+
+      <div *ngIf="!selectedUser" style="padding: 20px; text-align: center; border: 1px solid #ccc;">
+        Selecione um usuario para gerenciar roles
+      </div>
+
+      <div *ngIf="selectedUser" style="border: 1px solid #ccc; padding: 15px;">
+        <h3>Usuario: {{ selectedUser.username }}</h3>
+        <p><strong>Email:</strong> {{ selectedUser.email }}</p>
+        <p><strong>ID:</strong> {{ selectedUser.id }}</p>
+
+        <div style="margin-top: 20px;">
+          <h4>Roles Disponiveis</h4>
+          <p style="font-size: 12px; color: #666;">Clique para adicionar/remover roles</p>
+
+          <div *ngFor="let role of availableRoles" style="margin-bottom: 10px;">
+            <label style="display: flex; align-items: center; padding: 8px; border: 1px solid #ccc; cursor: pointer;"
+                   [style.background-color]="hasRole(role.name) ? '#d4edda' : 'white'">
+              <input type="checkbox"
+                     [checked]="hasRole(role.name)"
+                     (change)="toggleRole(role)"
+                     style="margin-right: 10px;">
+              <div>
+                <strong>{{ role.name }}</strong>
+                <div *ngIf="role.description" style="font-size: 12px; color: #666;">
+                  {{ role.description }}
+                </div>
+              </div>
+            </label>
+          </div>
+        </div>
+
+        <div style="margin-top: 20px; padding: 10px; background-color: #f8f9fa;">
+          <h4>Roles Atuais do Usuario</h4>
+          <div *ngIf="userRoles.length === 0">
+            Nenhuma role atribuida
+          </div>
+          <ul *ngIf="userRoles.length > 0">
+            <li *ngFor="let role of userRoles">{{ role.name }}</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div style="margin-top: 30px; padding: 15px; background-color: #fff3cd; border-left: 4px solid #ffc107;">
+    <h4>Informacoes Importantes</h4>
+    <ul style="margin: 10px 0; padding-left: 20px;">
+      <li>Esta funcionalidade requer permissoes de administrador no Keycloak</li>
+      <li>O usuario autenticado deve ter a role "admin" ou permissoes equivalentes</li>
+      <li>As alteracoes sao aplicadas imediatamente no Keycloak</li>
+      <li>O usuario afetado precisara fazer logout/login para ver as novas roles</li>
+    </ul>
+  </div>
+</div>
