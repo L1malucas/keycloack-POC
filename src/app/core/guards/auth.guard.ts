@@ -7,6 +7,24 @@ export const authGuard: CanActivateFn = async (route, state) => {
   const router = inject(Router);
 
   if (authService.isLoggedIn()) {
+    // Se está indo para /complete-profile, permite acesso
+    if (state.url === '/complete-profile') {
+      return true;
+    }
+
+    // Verifica se o perfil está completo
+    const userProfile = authService.getUserProfile();
+    const profileCompleted = userProfile?.attributes?.['profileCompleted'];
+    const isCompleted = Array.isArray(profileCompleted)
+      ? profileCompleted[0] === 'true'
+      : profileCompleted === 'true';
+
+    // Se perfil não está completo e não está indo para /complete-profile, redireciona
+    if (!isCompleted && state.url !== '/complete-profile') {
+      router.navigate(['/complete-profile']);
+      return false;
+    }
+
     return true;
   }
 

@@ -1,0 +1,167 @@
+<div style="max-width: 600px; margin: 50px auto; padding: 20px;">
+  <h1>Complete seu Perfil</h1>
+
+  <div style="padding: 15px; background-color: #e7f3ff; border-left: 4px solid #007bff; margin-bottom: 20px;">
+    <p style="margin: 0; font-size: 14px;">
+      <strong>📋 Informações Necessárias</strong><br>
+      Para continuar, precisamos de algumas informações adicionais sobre você.
+      Os campos marcados com <span style="color: red;">*</span> são obrigatórios.
+    </p>
+  </div>
+
+  @if (errorMessage) {
+    <div style="padding: 15px; background-color: #f8d7da; border-left: 4px solid #dc3545; margin-bottom: 20px;">
+      <p style="margin: 0; color: #721c24;">{{ errorMessage }}</p>
+    </div>
+  }
+
+  <form [formGroup]="completeProfileForm" (ngSubmit)="completeProfile()" style="background-color: #f9f9f9; padding: 20px; border-radius: 4px;">
+
+    <!-- Campos Obrigatórios -->
+    <h3 style="margin-top: 0; border-bottom: 2px solid #007bff; padding-bottom: 5px;">Dados Pessoais (Obrigatórios)</h3>
+
+    <div style="margin-bottom: 15px;">
+      <label style="display: block; margin-bottom: 5px; font-weight: bold;">
+        Telefone <span style="color: red;">*</span>
+      </label>
+      <input
+        type="tel"
+        formControlName="phone"
+        placeholder="(11) 98765-4321"
+        style="width: 100%; padding: 8px; border: 1px solid #ccc; border-radius: 4px;"
+        [style.border-color]="getFieldError('phone') ? '#dc3545' : '#ccc'">
+      @if (getFieldError('phone')) {
+        <small style="color: #dc3545;">{{ getFieldError('phone') }}</small>
+      }
+    </div>
+
+    <div style="margin-bottom: 15px;">
+      <label style="display: block; margin-bottom: 5px; font-weight: bold;">
+        CPF <span style="color: red;">*</span>
+      </label>
+      <input
+        type="text"
+        formControlName="cpf"
+        placeholder="123.456.789-00"
+        style="width: 100%; padding: 8px; border: 1px solid #ccc; border-radius: 4px;"
+        [style.border-color]="getFieldError('cpf') ? '#dc3545' : '#ccc'">
+      @if (getFieldError('cpf')) {
+        <small style="color: #dc3545;">{{ getFieldError('cpf') }}</small>
+      }
+    </div>
+
+    <div style="margin-bottom: 15px;">
+      <label style="display: block; margin-bottom: 5px; font-weight: bold;">
+        Data de Nascimento <span style="color: red;">*</span>
+      </label>
+      <input
+        type="date"
+        formControlName="birthDate"
+        style="width: 100%; padding: 8px; border: 1px solid #ccc; border-radius: 4px;"
+        [style.border-color]="getFieldError('birthDate') ? '#dc3545' : '#ccc'">
+      @if (getFieldError('birthDate')) {
+        <small style="color: #dc3545;">{{ getFieldError('birthDate') }}</small>
+      }
+    </div>
+
+    <!-- Campos Opcionais -->
+    <h3 style="margin-top: 25px; border-bottom: 2px solid #28a745; padding-bottom: 5px;">Endereço (Opcional)</h3>
+
+    <div style="margin-bottom: 15px;">
+      <label style="display: block; margin-bottom: 5px; font-weight: bold;">CEP</label>
+      <input
+        type="text"
+        formControlName="zipCode"
+        placeholder="01234-567"
+        style="width: 100%; padding: 8px; border: 1px solid #ccc; border-radius: 4px;"
+        [style.border-color]="getFieldError('zipCode') ? '#dc3545' : '#ccc'">
+      @if (getFieldError('zipCode')) {
+        <small style="color: #dc3545;">{{ getFieldError('zipCode') }}</small>
+      }
+    </div>
+
+    <div style="margin-bottom: 15px;">
+      <label style="display: block; margin-bottom: 5px; font-weight: bold;">Rua</label>
+      <input
+        type="text"
+        formControlName="street"
+        placeholder="Rua Exemplo"
+        style="width: 100%; padding: 8px; border: 1px solid #ccc; border-radius: 4px;">
+    </div>
+
+    <div style="display: grid; grid-template-columns: 1fr 2fr; gap: 15px; margin-bottom: 15px;">
+      <div>
+        <label style="display: block; margin-bottom: 5px; font-weight: bold;">Número</label>
+        <input
+          type="text"
+          formControlName="number"
+          placeholder="123"
+          style="width: 100%; padding: 8px; border: 1px solid #ccc; border-radius: 4px;">
+      </div>
+
+      <div>
+        <label style="display: block; margin-bottom: 5px; font-weight: bold;">Cidade</label>
+        <input
+          type="text"
+          formControlName="city"
+          placeholder="São Paulo"
+          style="width: 100%; padding: 8px; border: 1px solid #ccc; border-radius: 4px;">
+      </div>
+    </div>
+
+    <div style="margin-bottom: 20px;">
+      <label style="display: block; margin-bottom: 5px; font-weight: bold;">Estado</label>
+      <select
+        formControlName="state"
+        style="width: 100%; padding: 8px; border: 1px solid #ccc; border-radius: 4px;">
+        <option value="">Selecione um estado</option>
+        <option value="AC">Acre</option>
+        <option value="AL">Alagoas</option>
+        <option value="AP">Amapá</option>
+        <option value="AM">Amazonas</option>
+        <option value="BA">Bahia</option>
+        <option value="CE">Ceará</option>
+        <option value="DF">Distrito Federal</option>
+        <option value="ES">Espírito Santo</option>
+        <option value="GO">Goiás</option>
+        <option value="MA">Maranhão</option>
+        <option value="MT">Mato Grosso</option>
+        <option value="MS">Mato Grosso do Sul</option>
+        <option value="MG">Minas Gerais</option>
+        <option value="PA">Pará</option>
+        <option value="PB">Paraíba</option>
+        <option value="PR">Paraná</option>
+        <option value="PE">Pernambuco</option>
+        <option value="PI">Piauí</option>
+        <option value="RJ">Rio de Janeiro</option>
+        <option value="RN">Rio Grande do Norte</option>
+        <option value="RS">Rio Grande do Sul</option>
+        <option value="RO">Rondônia</option>
+        <option value="RR">Roraima</option>
+        <option value="SC">Santa Catarina</option>
+        <option value="SP">São Paulo</option>
+        <option value="SE">Sergipe</option>
+        <option value="TO">Tocantins</option>
+      </select>
+    </div>
+
+    <!-- Botões -->
+    <div style="display: flex; gap: 10px; margin-top: 25px;">
+      <button
+        type="submit"
+        [disabled]="submitting"
+        style="flex: 1; padding: 12px; cursor: pointer; background-color: #007bff; color: white; border: none; font-size: 16px; border-radius: 4px;"
+        [style.opacity]="submitting ? '0.6' : '1'">
+        {{ submitting ? 'Salvando...' : 'Completar Perfil' }}
+      </button>
+    </div>
+  </form>
+
+  <div style="margin-top: 20px; padding: 15px; background-color: #fff3cd; border-left: 4px solid #ffc107;">
+    <p style="margin: 0; font-size: 14px;">
+      <strong>⚠️ Importante:</strong><br>
+      Após completar seu perfil, você terá acesso completo ao sistema.
+      Você poderá editar essas informações posteriormente na página de perfil.
+    </p>
+  </div>
+</div>

@@ -1,12 +1,15 @@
 export interface UserProfile {
   id?: string;
+  sub?: string;  // JWT subject (user ID)
   username?: string;
   email?: string;
   firstName?: string;
   lastName?: string;
+  given_name?: string;  // JWT claim
+  family_name?: string;  // JWT claim
   enabled?: boolean;
   emailVerified?: boolean;
-  attributes?: Record<string, unknown>;
+  attributes?: Record<string, string[]>;
   realmRoles?: string[];
   clientRoles?: Record<string, unknown>;
 }

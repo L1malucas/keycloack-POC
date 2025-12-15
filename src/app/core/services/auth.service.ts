@@ -74,12 +74,15 @@ export class AuthService {
 
       const userProfile: UserProfile = {
         id: profile.id,
+        sub: profile.id,
         username: profile.username,
         email: profile.email,
         firstName: profile.firstName,
         lastName: profile.lastName,
+        given_name: profile.firstName,
+        family_name: profile.lastName,
         emailVerified: profile.emailVerified,
-        attributes: profile.attributes,
+        attributes: profile.attributes as Record<string, string[]>,
         realmRoles: tokenParsed?.realm_access?.roles || [],
         clientRoles: tokenParsed?.resource_access || {}
       };

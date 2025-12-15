@@ -4,60 +4,285 @@
     <a routerLink="/" style="text-decoration: none; color: #007bff;">Voltar para Home</a>
   </div>
 
-  <div *ngIf="userProfile" style="border: 1px solid #ccc; padding: 20px;">
-    <h2>Informacoes Detalhadas</h2>
-
-    <div style="margin-bottom: 15px;">
-      <h3>Dados Basicos</h3>
-      <table style="width: 100%; border-collapse: collapse;">
-        <tr style="border-bottom: 1px solid #eee;">
-          <td style="padding: 8px; font-weight: bold;">ID:</td>
-          <td style="padding: 8px;">{{ userProfile.id }}</td>
-        </tr>
-        <tr style="border-bottom: 1px solid #eee;">
-          <td style="padding: 8px; font-weight: bold;">Username:</td>
-          <td style="padding: 8px;">{{ userProfile.username }}</td>
-        </tr>
-        <tr style="border-bottom: 1px solid #eee;">
-          <td style="padding: 8px; font-weight: bold;">Email:</td>
-          <td style="padding: 8px;">{{ userProfile.email }}</td>
-        </tr>
-        <tr style="border-bottom: 1px solid #eee;">
-          <td style="padding: 8px; font-weight: bold;">Nome Completo:</td>
-          <td style="padding: 8px;">{{ userProfile.firstName }} {{ userProfile.lastName }}</td>
-        </tr>
-        <tr style="border-bottom: 1px solid #eee;">
-          <td style="padding: 8px; font-weight: bold;">Email Verificado:</td>
-          <td style="padding: 8px;">{{ userProfile.emailVerified ? 'Sim' : 'Nao' }}</td>
-        </tr>
-      </table>
+  @if (errorMessage) {
+    <div style="padding: 15px; background-color: #f8d7da; border-left: 4px solid #dc3545; margin-bottom: 20px;">
+      <p style="margin: 0; color: #721c24;">{{ errorMessage }}</p>
     </div>
+  }
 
-    <div style="margin-bottom: 15px;">
-      <h3>Roles do Realm</h3>
-      <div *ngIf="userProfile.realmRoles && userProfile.realmRoles.length > 0">
-        <ul>
-          <li *ngFor="let role of userProfile.realmRoles">{{ role }}</li>
-        </ul>
+  <!-- Modo de Visualização -->
+  @if (userProfile && !editMode) {
+    <div style="border: 1px solid #ccc; padding: 20px; margin-bottom: 20px;">
+      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+        <h2 style="margin: 0;">Informações do Perfil</h2>
+        <button (click)="enableEditMode()"
+                style="padding: 10px 20px; cursor: pointer; background-color: #28a745; color: white; border: none; border-radius: 4px;">
+          Editar Perfil
+        </button>
       </div>
-      <p *ngIf="!userProfile.realmRoles || userProfile.realmRoles.length === 0">
-        Nenhuma role atribuida
-      </p>
-    </div>
 
-    <div style="margin-bottom: 15px;" *ngIf="userProfile.attributes">
-      <h3>Atributos</h3>
-      <table style="width: 100%; border-collapse: collapse;">
-        <tr *ngFor="let attr of userProfile.attributes | keyvalue" style="border-bottom: 1px solid #eee;">
-          <td style="padding: 8px; font-weight: bold;">{{ attr.key }}:</td>
-          <td style="padding: 8px;">{{ formatAttributeValue(attr.value) }}</td>
-        </tr>
-      </table>
-    </div>
-  </div>
+      <div style="margin-bottom: 15px;">
+        <h3>Dados Básicos</h3>
+        <table style="width: 100%; border-collapse: collapse;">
+          <tr style="border-bottom: 1px solid #eee;">
+            <td style="padding: 8px; font-weight: bold; width: 200px;">Username:</td>
+            <td style="padding: 8px;">{{ userProfile.username }}</td>
+          </tr>
+          <tr style="border-bottom: 1px solid #eee;">
+            <td style="padding: 8px; font-weight: bold;">Nome:</td>
+            <td style="padding: 8px;">{{ userProfile.firstName }}</td>
+          </tr>
+          <tr style="border-bottom: 1px solid #eee;">
+            <td style="padding: 8px; font-weight: bold;">Sobrenome:</td>
+            <td style="padding: 8px;">{{ userProfile.lastName }}</td>
+          </tr>
+          <tr style="border-bottom: 1px solid #eee;">
+            <td style="padding: 8px; font-weight: bold;">Email:</td>
+            <td style="padding: 8px;">{{ userProfile.email }}</td>
+          </tr>
+          <tr style="border-bottom: 1px solid #eee;">
+            <td style="padding: 8px; font-weight: bold;">Email Verificado:</td>
+            <td style="padding: 8px;">{{ userProfile.emailVerified ? 'Sim' : 'Não' }}</td>
+          </tr>
+        </table>
+      </div>
 
+      @if (userProfile.attributes) {
+        <div style="margin-bottom: 15px;">
+          <h3>Dados Pessoais</h3>
+          <table style="width: 100%; border-collapse: collapse;">
+            @if (userProfile.attributes['phone']) {
+              <tr style="border-bottom: 1px solid #eee;">
+                <td style="padding: 8px; font-weight: bold; width: 200px;">Telefone:</td>
+                <td style="padding: 8px;">{{ formatAttributeValue(userProfile.attributes['phone']) }}</td>
+              </tr>
+            }
+            @if (userProfile.attributes['cpf']) {
+              <tr style="border-bottom: 1px solid #eee;">
+                <td style="padding: 8px; font-weight: bold;">CPF:</td>
+                <td style="padding: 8px;">{{ formatAttributeValue(userProfile.attributes['cpf']) }}</td>
+              </tr>
+            }
+            @if (userProfile.attributes['birthDate']) {
+              <tr style="border-bottom: 1px solid #eee;">
+                <td style="padding: 8px; font-weight: bold;">Data de Nascimento:</td>
+                <td style="padding: 8px;">{{ formatAttributeValue(userProfile.attributes['birthDate']) }}</td>
+              </tr>
+            }
+          </table>
+        </div>
+
+        @if (userProfile.attributes['street'] || userProfile.attributes['city'] || userProfile.attributes['state']) {
+          <div style="margin-bottom: 15px;">
+            <h3>Endereço</h3>
+            <table style="width: 100%; border-collapse: collapse;">
+              @if (userProfile.attributes['zipCode']) {
+                <tr style="border-bottom: 1px solid #eee;">
+                  <td style="padding: 8px; font-weight: bold; width: 200px;">CEP:</td>
+                  <td style="padding: 8px;">{{ formatAttributeValue(userProfile.attributes['zipCode']) }}</td>
+                </tr>
+              }
+              @if (userProfile.attributes['street']) {
+                <tr style="border-bottom: 1px solid #eee;">
+                  <td style="padding: 8px; font-weight: bold;">Rua:</td>
+                  <td style="padding: 8px;">{{ formatAttributeValue(userProfile.attributes['street']) }}</td>
+                </tr>
+              }
+              @if (userProfile.attributes['number']) {
+                <tr style="border-bottom: 1px solid #eee;">
+                  <td style="padding: 8px; font-weight: bold;">Número:</td>
+                  <td style="padding: 8px;">{{ formatAttributeValue(userProfile.attributes['number']) }}</td>
+                </tr>
+              }
+              @if (userProfile.attributes['city']) {
+                <tr style="border-bottom: 1px solid #eee;">
+                  <td style="padding: 8px; font-weight: bold;">Cidade:</td>
+                  <td style="padding: 8px;">{{ formatAttributeValue(userProfile.attributes['city']) }}</td>
+                </tr>
+              }
+              @if (userProfile.attributes['state']) {
+                <tr style="border-bottom: 1px solid #eee;">
+                  <td style="padding: 8px; font-weight: bold;">Estado:</td>
+                  <td style="padding: 8px;">{{ formatAttributeValue(userProfile.attributes['state']) }}</td>
+                </tr>
+              }
+            </table>
+          </div>
+        }
+      }
+
+      <div style="margin-bottom: 15px;">
+        <h3>Roles do Realm</h3>
+        @if (userProfile.realmRoles && userProfile.realmRoles.length > 0) {
+          <ul>
+            <li *ngFor="let role of userProfile.realmRoles">{{ role }}</li>
+          </ul>
+        } @else {
+          <p>Nenhuma role atribuída</p>
+        }
+      </div>
+    </div>
+  }
+
+  <!-- Modo de Edição -->
+  @if (editMode) {
+    <div style="border: 1px solid #ccc; padding: 20px; margin-bottom: 20px; background-color: #f9f9f9;">
+      <h2 style="margin-top: 0;">Editar Perfil</h2>
+
+      <form [formGroup]="profileForm" (ngSubmit)="saveProfile()">
+        <!-- Dados Básicos -->
+        <h3 style="border-bottom: 2px solid #007bff; padding-bottom: 5px;">Dados Básicos</h3>
+
+        <div style="margin-bottom: 15px;">
+          <label style="display: block; margin-bottom: 5px; font-weight: bold;">Nome <span style="color: red;">*</span></label>
+          <input type="text" formControlName="firstName"
+                 style="width: 100%; padding: 8px; border: 1px solid #ccc; border-radius: 4px;"
+                 [style.border-color]="getFieldError('firstName') ? '#dc3545' : '#ccc'">
+          @if (getFieldError('firstName')) {
+            <small style="color: #dc3545;">{{ getFieldError('firstName') }}</small>
+          }
+        </div>
+
+        <div style="margin-bottom: 15px;">
+          <label style="display: block; margin-bottom: 5px; font-weight: bold;">Sobrenome <span style="color: red;">*</span></label>
+          <input type="text" formControlName="lastName"
+                 style="width: 100%; padding: 8px; border: 1px solid #ccc; border-radius: 4px;"
+                 [style.border-color]="getFieldError('lastName') ? '#dc3545' : '#ccc'">
+          @if (getFieldError('lastName')) {
+            <small style="color: #dc3545;">{{ getFieldError('lastName') }}</small>
+          }
+        </div>
+
+        <div style="margin-bottom: 15px;">
+          <label style="display: block; margin-bottom: 5px; font-weight: bold;">Email <span style="color: red;">*</span></label>
+          <input type="email" formControlName="email"
+                 style="width: 100%; padding: 8px; border: 1px solid #ccc; border-radius: 4px;"
+                 [style.border-color]="getFieldError('email') ? '#dc3545' : '#ccc'">
+          @if (getFieldError('email')) {
+            <small style="color: #dc3545;">{{ getFieldError('email') }}</small>
+          }
+        </div>
+
+        <!-- Dados Pessoais -->
+        <h3 style="margin-top: 25px; border-bottom: 2px solid #007bff; padding-bottom: 5px;">Dados Pessoais</h3>
+
+        <div style="margin-bottom: 15px;">
+          <label style="display: block; margin-bottom: 5px; font-weight: bold;">Telefone <span style="color: red;">*</span></label>
+          <input type="tel" formControlName="phone" placeholder="(11) 98765-4321"
+                 style="width: 100%; padding: 8px; border: 1px solid #ccc; border-radius: 4px;"
+                 [style.border-color]="getFieldError('phone') ? '#dc3545' : '#ccc'">
+          @if (getFieldError('phone')) {
+            <small style="color: #dc3545;">{{ getFieldError('phone') }}</small>
+          }
+        </div>
+
+        <div style="margin-bottom: 15px;">
+          <label style="display: block; margin-bottom: 5px; font-weight: bold;">CPF <span style="color: red;">*</span></label>
+          <input type="text" formControlName="cpf" placeholder="123.456.789-00"
+                 style="width: 100%; padding: 8px; border: 1px solid #ccc; border-radius: 4px;"
+                 [style.border-color]="getFieldError('cpf') ? '#dc3545' : '#ccc'">
+          @if (getFieldError('cpf')) {
+            <small style="color: #dc3545;">{{ getFieldError('cpf') }}</small>
+          }
+        </div>
+
+        <div style="margin-bottom: 15px;">
+          <label style="display: block; margin-bottom: 5px; font-weight: bold;">Data de Nascimento <span style="color: red;">*</span></label>
+          <input type="date" formControlName="birthDate"
+                 style="width: 100%; padding: 8px; border: 1px solid #ccc; border-radius: 4px;"
+                 [style.border-color]="getFieldError('birthDate') ? '#dc3545' : '#ccc'">
+          @if (getFieldError('birthDate')) {
+            <small style="color: #dc3545;">{{ getFieldError('birthDate') }}</small>
+          }
+        </div>
+
+        <!-- Endereço -->
+        <h3 style="margin-top: 25px; border-bottom: 2px solid #28a745; padding-bottom: 5px;">Endereço (Opcional)</h3>
+
+        <div style="margin-bottom: 15px;">
+          <label style="display: block; margin-bottom: 5px; font-weight: bold;">CEP</label>
+          <input type="text" formControlName="zipCode" placeholder="01234-567"
+                 style="width: 100%; padding: 8px; border: 1px solid #ccc; border-radius: 4px;"
+                 [style.border-color]="getFieldError('zipCode') ? '#dc3545' : '#ccc'">
+          @if (getFieldError('zipCode')) {
+            <small style="color: #dc3545;">{{ getFieldError('zipCode') }}</small>
+          }
+        </div>
+
+        <div style="margin-bottom: 15px;">
+          <label style="display: block; margin-bottom: 5px; font-weight: bold;">Rua</label>
+          <input type="text" formControlName="street" placeholder="Rua Exemplo"
+                 style="width: 100%; padding: 8px; border: 1px solid #ccc; border-radius: 4px;">
+        </div>
+
+        <div style="display: grid; grid-template-columns: 1fr 2fr; gap: 15px; margin-bottom: 15px;">
+          <div>
+            <label style="display: block; margin-bottom: 5px; font-weight: bold;">Número</label>
+            <input type="text" formControlName="number" placeholder="123"
+                   style="width: 100%; padding: 8px; border: 1px solid #ccc; border-radius: 4px;">
+          </div>
+          <div>
+            <label style="display: block; margin-bottom: 5px; font-weight: bold;">Cidade</label>
+            <input type="text" formControlName="city" placeholder="São Paulo"
+                   style="width: 100%; padding: 8px; border: 1px solid #ccc; border-radius: 4px;">
+          </div>
+        </div>
+
+        <div style="margin-bottom: 20px;">
+          <label style="display: block; margin-bottom: 5px; font-weight: bold;">Estado</label>
+          <select formControlName="state"
+                  style="width: 100%; padding: 8px; border: 1px solid #ccc; border-radius: 4px;">
+            <option value="">Selecione um estado</option>
+            <option value="AC">Acre</option>
+            <option value="AL">Alagoas</option>
+            <option value="AP">Amapá</option>
+            <option value="AM">Amazonas</option>
+            <option value="BA">Bahia</option>
+            <option value="CE">Ceará</option>
+            <option value="DF">Distrito Federal</option>
+            <option value="ES">Espírito Santo</option>
+            <option value="GO">Goiás</option>
+            <option value="MA">Maranhão</option>
+            <option value="MT">Mato Grosso</option>
+            <option value="MS">Mato Grosso do Sul</option>
+            <option value="MG">Minas Gerais</option>
+            <option value="PA">Pará</option>
+            <option value="PB">Paraíba</option>
+            <option value="PR">Paraná</option>
+            <option value="PE">Pernambuco</option>
+            <option value="PI">Piauí</option>
+            <option value="RJ">Rio de Janeiro</option>
+            <option value="RN">Rio Grande do Norte</option>
+            <option value="RS">Rio Grande do Sul</option>
+            <option value="RO">Rondônia</option>
+            <option value="RR">Roraima</option>
+            <option value="SC">Santa Catarina</option>
+            <option value="SP">São Paulo</option>
+            <option value="SE">Sergipe</option>
+            <option value="TO">Tocantins</option>
+          </select>
+        </div>
+
+        <!-- Botões -->
+        <div style="display: flex; gap: 10px; margin-top: 25px;">
+          <button type="submit" [disabled]="submitting"
+                  style="flex: 1; padding: 12px; cursor: pointer; background-color: #007bff; color: white; border: none; border-radius: 4px;"
+                  [style.opacity]="submitting ? '0.6' : '1'">
+            {{ submitting ? 'Salvando...' : 'Salvar Alterações' }}
+          </button>
+          <button type="button" (click)="cancelEdit()" [disabled]="submitting"
+                  style="flex: 1; padding: 12px; cursor: pointer; background-color: #6c757d; color: white; border: none; border-radius: 4px;"
+                  [style.opacity]="submitting ? '0.6' : '1'">
+            Cancelar
+          </button>
+        </div>
+      </form>
+    </div>
+  }
+
+  <!-- Gestão de Tokens -->
   <div style="margin-top: 30px; border: 1px solid #ccc; padding: 20px;">
-    <h2>Gestao de Tokens</h2>
+    <h2>Gestão de Tokens</h2>
 
     <div style="margin-bottom: 15px;">
       <h3>Access Token</h3>
@@ -73,28 +298,29 @@
       </div>
     </div>
 
-    <button (click)="refreshTokenManual()" style="padding: 10px 20px; cursor: pointer; background-color: #007bff; color: white; border: none;">
+    <button (click)="refreshTokenManual()" style="padding: 10px 20px; cursor: pointer; background-color: #007bff; color: white; border: none; border-radius: 4px;">
       Atualizar Token Manualmente
     </button>
   </div>
 
-  <app-flow-explanation title="Fluxo: Refresh Automatico de Tokens" [defaultOpen]="false">
-    <p style="margin-bottom: 10px;"><strong>Como funciona o refresh automatico:</strong></p>
+  <!-- Diagrama de Refresh -->
+  <app-flow-explanation title="Fluxo: Refresh Automático de Tokens" [defaultOpen]="false">
+    <p style="margin-bottom: 10px;"><strong>Como funciona o refresh automático:</strong></p>
     <ol style="margin: 10px 0; padding-left: 20px;">
       <li>A cada 60 segundos, Angular verifica se o token expira em menos de 70s</li>
-      <li>Se estiver proximo da expiracao, envia o refresh_token para Keycloak</li>
+      <li>Se estiver próximo da expiração, envia o refresh_token para Keycloak</li>
       <li>Keycloak valida o refresh_token</li>
-      <li>Se valido, Keycloak gera um novo access_token</li>
-      <li>Angular atualiza o token em memoria</li>
-      <li>Processo continua automaticamente enquanto voce usa a aplicacao</li>
-      <li>Se refresh falhar, voce e deslogado automaticamente</li>
+      <li>Se válido, Keycloak gera um novo access_token</li>
+      <li>Angular atualiza o token em memória</li>
+      <li>Processo continua automaticamente enquanto você usa a aplicação</li>
+      <li>Se refresh falhar, você é deslogado automaticamente</li>
     </ol>
     <div style="margin-top: 10px; padding: 10px; background-color: #e7f3ff; border-left: 4px solid #007bff;">
-      <p style="margin: 0;"><strong>Informacoes importantes:</strong></p>
+      <p style="margin: 0;"><strong>Informações importantes:</strong></p>
       <ul style="margin: 10px 0; padding-left: 20px;">
-        <li>Access Token expira em 5 minutos (padrao Keycloak)</li>
-        <li>Refresh Token expira em 30 minutos (padrao Keycloak)</li>
-        <li>Tokens armazenados apenas em memoria (nao persiste no navegador)</li>
+        <li>Access Token expira em 5 minutos (padrão Keycloak)</li>
+        <li>Refresh Token expira em 30 minutos (padrão Keycloak)</li>
+        <li>Tokens armazenados apenas em memória (não persiste no navegador)</li>
         <li>Fechar aba/navegador remove tokens</li>
       </ul>
     </div>
