@@ -30,3 +30,47 @@ export interface UserRole {
   clientRole: boolean;
   containerId: string;
 }
+
+export interface CreateUserRequest {
+  username: string;
+  email: string;
+  firstName: string;
+  lastName: string;
+  enabled: boolean;
+  emailVerified: boolean;
+  credentials?: Array<{
+    type: string;
+    value: string;
+    temporary: boolean;
+  }>;
+  attributes?: Record<string, string[]>;
+}
+
+export interface UpdateProfileRequest {
+  firstName?: string;
+  lastName?: string;
+  email?: string;
+  attributes?: {
+    phone?: string[];
+    cpf?: string[];
+    birthDate?: string[];
+    street?: string[];
+    number?: string[];
+    city?: string[];
+    state?: string[];
+    zipCode?: string[];
+    profileCompleted?: string[];
+  };
+}
+
+export interface UserAttribute {
+  phone?: string;
+  cpf?: string;
+  birthDate?: string;
+  street?: string;
+  number?: string;
+  city?: string;
+  state?: string;
+  zipCode?: string;
+  profileCompleted?: string;
+}

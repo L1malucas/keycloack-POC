@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { AuthService } from '../../core/services/auth.service';
 import { MermaidDiagramComponent } from '../../core/components/mermaid-diagram.component';
 import { FlowExplanationComponent } from '../../core/components/flow-explanation.component';
+import { environment } from '../../../environments/environment';
 
 @Component({
   selector: 'app-login',
@@ -51,5 +52,14 @@ sequenceDiagram
 
   loginWithGoogle(): void {
     this.authService.loginWithGoogle();
+  }
+
+  forgotPassword(): void {
+    const keycloakUrl = environment.keycloak.url;
+    const realm = environment.keycloak.realm;
+    const clientId = environment.keycloak.clientId;
+    const redirectUri = encodeURIComponent(window.location.origin + '/login');
+
+    window.location.href = `${keycloakUrl}/realms/${realm}/login-actions/reset-credentials?client_id=${clientId}&redirect_uri=${redirectUri}`;
   }
 }
