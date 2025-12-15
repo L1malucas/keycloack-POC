@@ -96,7 +96,14 @@
         Carregando usuarios...
       </div>
 
-      <div *ngIf="!loading" style="border: 1px solid #ccc;">
+      <div *ngIf="!loading && users.length === 0 && !error" style="text-align: center; padding: 20px; border: 1px solid #ffc107; background-color: #fff3cd;">
+        Nenhum usuário encontrado. Verifique os logs do console (F12) para detalhes.
+      </div>
+
+      <div *ngIf="!loading && users.length > 0" style="border: 1px solid #ccc;">
+        <div style="padding: 10px; background-color: #d4edda; border-bottom: 1px solid #c3e6cb;">
+          <strong>{{ users.length }}</strong> usuário(s) encontrado(s)
+        </div>
         <table style="width: 100%; border-collapse: collapse;">
           <thead>
             <tr style="background-color: #f8f9fa;">
@@ -136,22 +143,29 @@
 
         <div style="margin-top: 20px;">
           <h4>Roles Disponiveis</h4>
-          <p style="font-size: 12px; color: #666;">Clique para adicionar/remover roles</p>
 
-          <div *ngFor="let role of availableRoles" style="margin-bottom: 10px;">
-            <label style="display: flex; align-items: center; padding: 8px; border: 1px solid #ccc; cursor: pointer;"
-                   [style.background-color]="hasRole(role.name) ? '#d4edda' : 'white'">
-              <input type="checkbox"
-                     [checked]="hasRole(role.name)"
-                     (change)="toggleRole(role)"
-                     style="margin-right: 10px;">
-              <div>
-                <strong>{{ role.name }}</strong>
-                <div *ngIf="role.description" style="font-size: 12px; color: #666;">
-                  {{ role.description }}
+          <div *ngIf="availableRoles.length === 0" style="padding: 15px; background-color: #fff3cd; border: 1px solid #ffc107;">
+            <strong>Nenhuma role disponível.</strong> Verifique os logs do console (F12) para detalhes.
+          </div>
+
+          <div *ngIf="availableRoles.length > 0">
+            <p style="font-size: 12px; color: #666;">Clique para adicionar/remover roles ({{ availableRoles.length }} disponíveis)</p>
+
+            <div *ngFor="let role of availableRoles" style="margin-bottom: 10px;">
+              <label style="display: flex; align-items: center; padding: 8px; border: 1px solid #ccc; cursor: pointer;"
+                     [style.background-color]="hasRole(role.name) ? '#d4edda' : 'white'">
+                <input type="checkbox"
+                       [checked]="hasRole(role.name)"
+                       (change)="toggleRole(role)"
+                       style="margin-right: 10px;">
+                <div>
+                  <strong>{{ role.name }}</strong>
+                  <div *ngIf="role.description" style="font-size: 12px; color: #666;">
+                    {{ role.description }}
+                  </div>
                 </div>
-              </div>
-            </label>
+              </label>
+            </div>
           </div>
         </div>
 

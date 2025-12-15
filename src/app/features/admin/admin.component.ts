@@ -69,26 +69,48 @@ sequenceDiagram
   loadUsers(): void {
     this.loading = true;
     this.error = null;
+    console.log('Carregando usuários...');
     this.userService.getUsers().subscribe({
       next: (users) => {
+        console.log('Usuários carregados:', users);
+        console.log('Quantidade de usuários:', users.length);
         this.users = users;
         this.loading = false;
       },
       error: (err) => {
-        this.error = 'Erro ao carregar usuarios: ' + err.message;
+        console.error('Erro detalhado ao carregar usuários:', err);
+        console.error('Status:', err.status);
+        console.error('Message:', err.message);
+        console.error('Error object:', err.error);
+
+        if (err.status === 0) {
+          this.error = 'Erro de CORS ou conexão. Verifique se o Keycloak está configurado para permitir requisições do Vercel.';
+        } else if (err.status === 403 || err.status === 401) {
+          this.error = 'Sem permissão. Verifique se você tem a role "admin" no Keycloak.';
+        } else {
+          this.error = 'Erro ao carregar usuários: ' + (err.error?.errorMessage || err.message || 'Erro desconhecido');
+        }
         this.loading = false;
-        console.error('Error loading users:', err);
       }
     });
   }
 
   loadAvailableRoles(): void {
+    console.log('Carregando roles...');
     this.userService.getAvailableRoles().subscribe({
       next: (roles) => {
+        console.log('Roles carregadas:', roles);
+        console.log('Quantidade de roles:', roles.length);
         this.availableRoles = roles;
       },
       error: (err) => {
-        console.error('Error loading roles:', err);
+        console.error('Erro detalhado ao carregar roles:', err);
+        console.error('Status:', err.status);
+        console.error('Message:', err.message);
+
+        if (err.status === 0) {
+          console.error('Erro de CORS ou conexão ao carregar roles');
+        }
       }
     });
   }
@@ -197,8 +219,21 @@ sequenceDiagram
                   next: () => {
                     this.handleCreateUserSuccess('Usuário criado! Email de verificação enviado.');
                   },
-                  error: () => {
-                    this.handleCreateUserSuccess('Usuário criado, mas falhou ao enviar email de verificação.');
+                  error: (emailErr) => {
+                    console.error('Erro ao enviar email:', emailErr);
+                    let emailErrorMsg = 'Usuário criado com sucesso, mas o email de verificação falhou.\n\n';
+
+                    if (emailErr.status === 500) {
+                      emailErrorMsg += 'Causa provável: Keycloak não está configurado com servidor SMTP.\n\n';
+                      emailErrorMsg += 'Para configurar:\n';
+                      emailErrorMsg += '1. Acesse: Keycloak Admin Console → Realm Settings → Email\n';
+                      emailErrorMsg += '2. Configure o servidor SMTP (Gmail, SendGrid, etc.)\n';
+                      emailErrorMsg += '3. Teste a configuração antes de enviar emails';
+                    } else {
+                      emailErrorMsg += 'Erro: ' + (emailErr.error?.errorMessage || emailErr.message);
+                    }
+
+                    this.handleCreateUserSuccess(emailErrorMsg);
                   }
                 });
               } else {
@@ -206,7 +241,7 @@ sequenceDiagram
               }
             },
             error: () => {
-              this.handleCreateUserSuccess('Usuário criado, mas não foi possível enviar email.');
+              this.handleCreateUserSuccess('Usuário criado, mas não foi possível verificar o envio de email.');
             }
           });
         } else {
@@ -215,8 +250,18 @@ sequenceDiagram
       },
       error: (err) => {
         this.submittingUser = false;
-        this.error = 'Erro ao criar usuário: ' + (err.error?.errorMessage || err.message);
-        console.error('Error creating user:', err);
+        console.error('Erro completo ao criar usuário:', err);
+
+        let errorMsg = 'Erro ao criar usuário: ';
+        if (err.status === 409) {
+          errorMsg += 'Usuário já existe (username ou email duplicado)';
+        } else if (err.status === 0) {
+          errorMsg += 'Erro de CORS ou conexão';
+        } else {
+          errorMsg += (err.error?.errorMessage || err.message || 'Erro desconhecido');
+        }
+
+        this.error = errorMsg;
       }
     });
   }

@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterLink } from '@angular/router';
-import { environment } from '../../../environments/environment';
+import { AuthService } from '../../core/services/auth.service';
 
 @Component({
   selector: 'app-register',
@@ -10,13 +10,19 @@ import { environment } from '../../../environments/environment';
   templateUrl: './register.component.html'
 })
 export class RegisterComponent {
-  register(): void {
-    const keycloakUrl = environment.keycloak.url;
-    const realm = environment.keycloak.realm;
-    const clientId = environment.keycloak.clientId;
-    const redirectUri = encodeURIComponent(window.location.origin + '/login');
+  constructor(private authService: AuthService) {}
 
-    // Redireciona para a página de registro do Keycloak
-    window.location.href = `${keycloakUrl}/realms/${realm}/protocol/openid-connect/registrations?client_id=${clientId}&response_type=code&scope=openid&redirect_uri=${redirectUri}`;
+  async register(): Promise<void> {
+    // Usa o método register do Keycloak que já inclui PKCE automaticamente
+    const keycloak = this.authService.getKeycloakInstance();
+
+    try {
+      await keycloak.register({
+        redirectUri: window.location.origin
+      });
+    } catch (error) {
+      console.error('Erro ao redirecionar para registro:', error);
+      alert('Erro ao abrir página de registro. Tente novamente.');
+    }
   }
 }

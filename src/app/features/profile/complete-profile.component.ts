@@ -84,16 +84,41 @@ export class CompleteProfileComponent implements OnInit {
 
     this.accountService.updateAttributes(attributes).subscribe({
       next: () => {
+        console.log('Perfil atualizado com sucesso!');
         alert('Perfil completado com sucesso! Redirecionando...');
+        this.submitting = false;
+
         // Força reload do token para pegar os novos atributos
         this.authService.updateToken(0).then(() => {
+          this.authService.loadUserProfile().then(() => {
+            this.router.navigate(['/']);
+          });
+        }).catch(err => {
+          console.error('Erro ao atualizar token:', err);
+          // Mesmo com erro no token, redireciona
           this.router.navigate(['/']);
         });
       },
       error: (error) => {
-        console.error('Erro ao completar perfil:', error);
-        this.errorMessage = 'Erro ao salvar perfil. Tente novamente.';
+        console.error('Erro completo ao completar perfil:', error);
+        console.error('Status:', error.status);
+        console.error('Mensagem:', error.message);
+        console.error('Error object:', error.error);
+
         this.submitting = false;
+
+        if (error.status === 403) {
+          this.errorMessage = 'Sem permissão para atualizar perfil. Por favor, entre em contato com o administrador.';
+        } else if (error.status === 401) {
+          this.errorMessage = 'Sessão expirada. Por favor, faça login novamente.';
+          setTimeout(() => {
+            this.authService.logout();
+          }, 2000);
+        } else if (error.status === 0) {
+          this.errorMessage = 'Erro de conexão. Verifique sua internet e tente novamente.';
+        } else {
+          this.errorMessage = `Erro ao salvar perfil: ${error.error?.errorMessage || error.message || 'Erro desconhecido'}`;
+        }
       }
     });
   }

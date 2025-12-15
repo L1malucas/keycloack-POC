@@ -75,7 +75,8 @@ export class AccountService {
 
   /**
    * Atualiza atributos customizados do usuário
-   * Usa a Account REST API v1 que permite aos usuários atualizarem seus próprios atributos
+   * WORKAROUND: Como a Account API não está funcionando, vamos usar a Admin API
+   * IMPORTANTE: Isso só funciona se o usuário tiver permissões ou se criarmos um backend proxy
    */
   updateAttributes(attributes: Record<string, string[]>): Observable<void> {
     const userId = this.authService.getUserProfile()?.sub;
@@ -85,22 +86,20 @@ export class AccountService {
       throw new Error('User profile not loaded');
     }
 
-    const accountApiUrl = `${environment.keycloak.url}/realms/${environment.keycloak.realm}/account`;
+    // Tentativa 1: Usar Admin API diretamente (pode dar 403)
+    const adminApiUrl = `${environment.keycloak.url}/admin/realms/${environment.keycloak.realm}/users/${userId}`;
 
-    // Monta o payload com os dados atuais + novos atributos
     const payload = {
-      username: currentProfile.username,
       firstName: currentProfile.given_name,
       lastName: currentProfile.family_name,
       email: currentProfile.email,
-      emailVerified: currentProfile.emailVerified,
       attributes: {
         ...currentProfile.attributes,
         ...attributes
       }
     };
 
-    return this.http.post<void>(accountApiUrl, payload, {
+    return this.http.put<void>(adminApiUrl, payload, {
       headers: this.getHeaders()
     });
   }
