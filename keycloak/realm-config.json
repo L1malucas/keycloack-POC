@@ -3,6 +3,7 @@
   "displayName": "Keycloak POC",
   "displayNameHtml": "Keycloak Proof of Concept - Authentication System",
   "enabled": true,
+  "loginTheme": "custom",
   "sslRequired": "external",
   "registrationAllowed": true,
   "registrationEmailAsUsername": false,

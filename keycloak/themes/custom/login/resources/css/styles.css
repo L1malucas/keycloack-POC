@@ -1,0 +1,21 @@
+:root {
+    --cin-background: #f0f2f5;
+    --cin-primary: #007bff;
+    --cin-primary-light: #66b3ff;
+    --cin-primary-dark: #0056b3;
+    --cin-primary-darker: #004085;
+    --cin-text-primary: #ffffff;
+    --cin-text-secondary: #495057;
+    --cin-text-tertiary: #f8f9fa;
+    --cin-text-button: #ffffff;
+    --cin-white: #ffffff;
+}
+
+/* Adicionando para evitar que o tailwind sobrescreva o registrationLayout */
+body {
+    background-color: var(--cin-background);
+}
+
+#kc-header, .login-pf-page .login-pf-header, .login-pf-page .login-pf-social-section {
+    display: none;
+}
