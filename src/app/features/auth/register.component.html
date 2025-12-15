@@ -1,0 +1,42 @@
+<div style="max-width: 500px; margin: 50px auto; padding: 20px;">
+  <h1>Criar Conta</h1>
+
+  <div style="border: 1px solid #ccc; padding: 20px; background-color: #f9f9f9; border-radius: 4px; margin-top: 20px;">
+    <p style="margin-top: 0;">Crie sua conta para acessar o sistema.</p>
+
+    <div style="padding: 10px; background-color: #e7f3ff; border-left: 4px solid #007bff; margin-bottom: 20px;">
+      <p style="margin: 0; font-size: 14px;">
+        <strong>📧 Verificação de Email:</strong><br>
+        Após o cadastro, você receberá um email de verificação. Confirme seu email antes de fazer login.
+      </p>
+    </div>
+
+    <div style="padding: 10px; background-color: #fff3cd; border-left: 4px solid #ffc107; margin-bottom: 20px;">
+      <p style="margin: 0; font-size: 14px;">
+        <strong>📝 Completar Perfil:</strong><br>
+        Após o primeiro login, você precisará preencher informações adicionais como telefone e CPF.
+      </p>
+    </div>
+
+    <button (click)="register()"
+            style="width: 100%; padding: 12px; cursor: pointer; background-color: #28a745; color: white; border: none; font-size: 16px; border-radius: 4px; margin-bottom: 15px;">
+      Criar Nova Conta
+    </button>
+
+    <div style="text-align: center; margin-top: 15px;">
+      <a routerLink="/login" style="color: #007bff; text-decoration: none;">
+        Já tem uma conta? Faça login
+      </a>
+    </div>
+  </div>
+
+  <div style="margin-top: 30px; padding: 15px; background-color: #f8f9fa; border-radius: 4px;">
+    <h3 style="margin-top: 0; font-size: 16px;">O que você precisa:</h3>
+    <ul style="margin: 10px 0; padding-left: 20px; font-size: 14px;">
+      <li>Username único</li>
+      <li>Email válido</li>
+      <li>Senha forte (mínimo 8 caracteres)</li>
+      <li>Nome completo</li>
+    </ul>
+  </div>
+</div>

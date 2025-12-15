@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { environment } from '../../../environments/environment';
-import { KeycloakUser, UserRole } from '../models/user.model';
+import { KeycloakUser, UserRole, CreateUserRequest } from '../models/user.model';
 import { AuthService } from './auth.service';
 
 @Injectable({
@@ -89,6 +89,30 @@ export class UserService {
   deleteUser(userId: string): Observable<void> {
     return this.http.delete<void>(
       `${this.baseUrl}/users/${userId}`,
+      { headers: this.getHeaders() }
+    );
+  }
+
+  createUserWithEmail(userData: CreateUserRequest): Observable<void> {
+    return this.http.post<void>(
+      `${this.baseUrl}/users`,
+      userData,
+      { headers: this.getHeaders() }
+    );
+  }
+
+  sendVerificationEmail(userId: string): Observable<void> {
+    return this.http.put<void>(
+      `${this.baseUrl}/users/${userId}/send-verify-email`,
+      {},
+      { headers: this.getHeaders() }
+    );
+  }
+
+  executeActionsEmail(userId: string, actions: string[]): Observable<void> {
+    return this.http.put<void>(
+      `${this.baseUrl}/users/${userId}/execute-actions-email`,
+      actions,
       { headers: this.getHeaders() }
     );
   }

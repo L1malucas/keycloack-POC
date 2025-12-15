@@ -1,16 +1,16 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterLink } from '@angular/router';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { UserService } from '../../core/services/user.service';
-import { KeycloakUser, UserRole } from '../../core/models/user.model';
+import { KeycloakUser, UserRole, CreateUserRequest } from '../../core/models/user.model';
 import { MermaidDiagramComponent } from '../../core/components/mermaid-diagram.component';
 import { FlowExplanationComponent } from '../../core/components/flow-explanation.component';
 
 @Component({
   selector: 'app-admin',
   standalone: true,
-  imports: [CommonModule, RouterLink, FormsModule, MermaidDiagramComponent, FlowExplanationComponent],
+  imports: [CommonModule, RouterLink, FormsModule, ReactiveFormsModule, MermaidDiagramComponent, FlowExplanationComponent],
   templateUrl: './admin.component.html'
 })
 export class AdminComponent implements OnInit {
@@ -43,7 +43,23 @@ sequenceDiagram
   loading = false;
   error: string | null = null;
 
-  constructor(private userService: UserService) {}
+  showCreateUserForm = false;
+  createUserForm: FormGroup;
+  submittingUser = false;
+
+  constructor(
+    private userService: UserService,
+    private fb: FormBuilder
+  ) {
+    this.createUserForm = this.fb.group({
+      username: ['', [Validators.required, Validators.minLength(3)]],
+      email: ['', [Validators.required, Validators.email]],
+      firstName: ['', Validators.required],
+      lastName: ['', Validators.required],
+      password: ['', [Validators.required, Validators.minLength(8)]],
+      sendVerificationEmail: [true]
+    });
+  }
 
   ngOnInit(): void {
     this.loadUsers();
@@ -135,5 +151,98 @@ sequenceDiagram
         console.error('Error removing role:', err);
       }
     });
+  }
+
+  toggleCreateUserForm(): void {
+    this.showCreateUserForm = !this.showCreateUserForm;
+    if (!this.showCreateUserForm) {
+      this.createUserForm.reset({ sendVerificationEmail: true });
+    }
+  }
+
+  createUser(): void {
+    if (this.createUserForm.invalid) {
+      this.markFormGroupTouched(this.createUserForm);
+      return;
+    }
+
+    this.submittingUser = true;
+    const formValue = this.createUserForm.value;
+
+    const newUser: CreateUserRequest = {
+      username: formValue.username,
+      email: formValue.email,
+      firstName: formValue.firstName,
+      lastName: formValue.lastName,
+      enabled: true,
+      emailVerified: false,
+      credentials: [{
+        type: 'password',
+        value: formValue.password,
+        temporary: true
+      }],
+      attributes: {
+        profileCompleted: ['false']
+      }
+    };
+
+    this.userService.createUserWithEmail(newUser).subscribe({
+      next: () => {
+        if (formValue.sendVerificationEmail) {
+          this.userService.getUsers().subscribe({
+            next: (users) => {
+              const createdUser = users.find(u => u.username === newUser.username);
+              if (createdUser) {
+                this.userService.executeActionsEmail(createdUser.id, ['VERIFY_EMAIL']).subscribe({
+                  next: () => {
+                    this.handleCreateUserSuccess('Usuário criado! Email de verificação enviado.');
+                  },
+                  error: () => {
+                    this.handleCreateUserSuccess('Usuário criado, mas falhou ao enviar email de verificação.');
+                  }
+                });
+              } else {
+                this.handleCreateUserSuccess('Usuário criado com sucesso!');
+              }
+            },
+            error: () => {
+              this.handleCreateUserSuccess('Usuário criado, mas não foi possível enviar email.');
+            }
+          });
+        } else {
+          this.handleCreateUserSuccess('Usuário criado com sucesso!');
+        }
+      },
+      error: (err) => {
+        this.submittingUser = false;
+        this.error = 'Erro ao criar usuário: ' + (err.error?.errorMessage || err.message);
+        console.error('Error creating user:', err);
+      }
+    });
+  }
+
+  private handleCreateUserSuccess(message: string): void {
+    alert(message);
+    this.submittingUser = false;
+    this.showCreateUserForm = false;
+    this.createUserForm.reset({ sendVerificationEmail: true });
+    this.loadUsers();
+  }
+
+  private markFormGroupTouched(formGroup: FormGroup): void {
+    Object.keys(formGroup.controls).forEach(key => {
+      const control = formGroup.get(key);
+      control?.markAsTouched();
+    });
+  }
+
+  getFieldError(fieldName: string): string | null {
+    const field = this.createUserForm.get(fieldName);
+    if (field?.touched && field?.errors) {
+      if (field.errors['required']) return 'Campo obrigatório';
+      if (field.errors['email']) return 'Email inválido';
+      if (field.errors['minlength']) return `Mínimo ${field.errors['minlength'].requiredLength} caracteres`;
+    }
+    return null;
   }
 }

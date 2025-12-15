@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { RouterLink } from '@angular/router';
 import { AuthService } from '../../core/services/auth.service';
 import { MermaidDiagramComponent } from '../../core/components/mermaid-diagram.component';
 import { FlowExplanationComponent } from '../../core/components/flow-explanation.component';
@@ -7,7 +8,7 @@ import { environment } from '../../../environments/environment';
 @Component({
   selector: 'app-login',
   standalone: true,
-  imports: [MermaidDiagramComponent, FlowExplanationComponent],
+  imports: [RouterLink, MermaidDiagramComponent, FlowExplanationComponent],
   templateUrl: './login.component.html'
 })
 export class LoginComponent {

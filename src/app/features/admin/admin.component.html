@@ -10,7 +10,87 @@
 
   <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
     <div>
-      <h2>Usuarios</h2>
+      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px;">
+        <h2 style="margin: 0;">Usuarios</h2>
+        <button (click)="toggleCreateUserForm()"
+                style="padding: 10px 20px; cursor: pointer; background-color: #28a745; color: white; border: none; border-radius: 4px;">
+          {{ showCreateUserForm ? 'Cancelar' : 'Criar Novo Usuário' }}
+        </button>
+      </div>
+
+      <div *ngIf="showCreateUserForm" style="border: 1px solid #28a745; padding: 20px; margin-bottom: 20px; background-color: #f0fff4; border-radius: 4px;">
+        <h3 style="margin-top: 0; color: #28a745;">Criar Novo Usuário</h3>
+        <form [formGroup]="createUserForm" (ngSubmit)="createUser()">
+          <div style="margin-bottom: 15px;">
+            <label style="display: block; margin-bottom: 5px; font-weight: bold;">Username *</label>
+            <input formControlName="username" type="text"
+                   style="width: 100%; padding: 8px; border: 1px solid #ccc; border-radius: 4px;">
+            <span *ngIf="getFieldError('username')" style="color: #dc3545; font-size: 12px;">
+              {{ getFieldError('username') }}
+            </span>
+          </div>
+
+          <div style="margin-bottom: 15px;">
+            <label style="display: block; margin-bottom: 5px; font-weight: bold;">Email *</label>
+            <input formControlName="email" type="email"
+                   style="width: 100%; padding: 8px; border: 1px solid #ccc; border-radius: 4px;">
+            <span *ngIf="getFieldError('email')" style="color: #dc3545; font-size: 12px;">
+              {{ getFieldError('email') }}
+            </span>
+          </div>
+
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-bottom: 15px;">
+            <div>
+              <label style="display: block; margin-bottom: 5px; font-weight: bold;">Nome *</label>
+              <input formControlName="firstName" type="text"
+                     style="width: 100%; padding: 8px; border: 1px solid #ccc; border-radius: 4px;">
+              <span *ngIf="getFieldError('firstName')" style="color: #dc3545; font-size: 12px;">
+                {{ getFieldError('firstName') }}
+              </span>
+            </div>
+            <div>
+              <label style="display: block; margin-bottom: 5px; font-weight: bold;">Sobrenome *</label>
+              <input formControlName="lastName" type="text"
+                     style="width: 100%; padding: 8px; border: 1px solid #ccc; border-radius: 4px;">
+              <span *ngIf="getFieldError('lastName')" style="color: #dc3545; font-size: 12px;">
+                {{ getFieldError('lastName') }}
+              </span>
+            </div>
+          </div>
+
+          <div style="margin-bottom: 15px;">
+            <label style="display: block; margin-bottom: 5px; font-weight: bold;">Senha Temporária *</label>
+            <input formControlName="password" type="password"
+                   style="width: 100%; padding: 8px; border: 1px solid #ccc; border-radius: 4px;">
+            <span *ngIf="getFieldError('password')" style="color: #dc3545; font-size: 12px;">
+              {{ getFieldError('password') }}
+            </span>
+            <small style="display: block; color: #666; margin-top: 3px;">
+              O usuário será obrigado a alterar a senha no primeiro login
+            </small>
+          </div>
+
+          <div style="margin-bottom: 15px;">
+            <label style="display: flex; align-items: center; cursor: pointer;">
+              <input formControlName="sendVerificationEmail" type="checkbox" style="margin-right: 8px;">
+              <span>Enviar email de verificação</span>
+            </label>
+          </div>
+
+          <div style="display: flex; gap: 10px;">
+            <button type="submit"
+                    [disabled]="submittingUser"
+                    style="padding: 10px 20px; cursor: pointer; background-color: #007bff; color: white; border: none; border-radius: 4px;">
+              {{ submittingUser ? 'Criando...' : 'Criar Usuário' }}
+            </button>
+            <button type="button"
+                    (click)="toggleCreateUserForm()"
+                    style="padding: 10px 20px; cursor: pointer; background-color: #6c757d; color: white; border: none; border-radius: 4px;">
+              Cancelar
+            </button>
+          </div>
+        </form>
+      </div>
 
       <div *ngIf="loading" style="text-align: center; padding: 20px;">
         Carregando usuarios...
