@@ -4,5 +4,6 @@ export const environment = {
     url: 'http://localhost:8080',
     realm: 'keycloak-poc',
     clientId: 'angular-client'
-  }
+  },
+  appUrl: 'http://localhost:4200'
 };

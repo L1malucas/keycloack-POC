@@ -41,9 +41,9 @@ Capability config:
   [Next]
 
 Login settings:
-  Root URL: http://localhost:4200
-  Valid redirect URIs: http://localhost:4200/*
-  Web origins: http://localhost:4200
+  Root URL: https://keycloackpoc.vercel.app
+  Valid redirect URIs: https://keycloackpoc.vercel.app/*
+  Web origins: https://keycloackpoc.vercel.app
   [Save]
 ```
 
@@ -158,7 +158,7 @@ npm install
 npm start
 
 # Browser
-http://localhost:4200
+https://keycloackpoc.vercel.app
 Login: admin / admin123
 ```
 
@@ -166,10 +166,10 @@ Login: admin / admin123
 
 ```yaml
 Erro CORS:
-  - Clients → angular-client → Web origins: http://localhost:4200
+  - Clients → angular-client → Web origins: https://keycloackpoc.vercel.app
 
 Redirect invalido:
-  - Valid redirect URIs: http://localhost:4200/*
+  - Valid redirect URIs: https://keycloackpoc.vercel.app/*
 
 Admin API 403:
   - Usuario precisa role "admin"

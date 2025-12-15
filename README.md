@@ -24,7 +24,7 @@ npm install
 npm start
 ```
 
-Acessar: http://localhost:4200
+Acessar: https://keycloackpoc.vercel.app (producao) ou http://localhost:4200 (desenvolvimento)
 
 ## Configurar Keycloak
 
@@ -71,7 +71,7 @@ src/app/
 
 ```bash
 # Login admin
-http://localhost:4200 → Login
+https://keycloackpoc.vercel.app → Login
 Credenciais: admin / admin123
 Acessar: /, /profile, /admin
 

@@ -4,14 +4,38 @@ import { RouterLink } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { UserService } from '../../core/services/user.service';
 import { KeycloakUser, UserRole } from '../../core/models/user.model';
+import { MermaidDiagramComponent } from '../../core/components/mermaid-diagram.component';
+import { FlowExplanationComponent } from '../../core/components/flow-explanation.component';
 
 @Component({
   selector: 'app-admin',
   standalone: true,
-  imports: [CommonModule, RouterLink, FormsModule],
+  imports: [CommonModule, RouterLink, FormsModule, MermaidDiagramComponent, FlowExplanationComponent],
   templateUrl: './admin.component.html'
 })
 export class AdminComponent implements OnInit {
+  adminFlowDiagram = `
+sequenceDiagram
+    actor Admin
+    participant Angular
+    participant Admin API
+
+    Admin->>Angular: Acessa /admin
+    Angular->>Angular: adminGuard verifica role
+    Angular->>Admin API: GET /users
+    Admin API->>Angular: Lista usuarios
+
+    Admin->>Angular: Seleciona usuario
+    Angular->>Admin API: GET /role-mappings
+    Admin API->>Angular: Roles do usuario
+
+    Admin->>Angular: Adiciona role
+    Angular->>Admin API: POST /role-mappings
+    Admin API->>Admin API: Valida token
+    Admin API->>Angular: Role atribuida
+    Angular->>Admin: Sucesso
+  `;
+
   users: KeycloakUser[] = [];
   availableRoles: UserRole[] = [];
   selectedUser: KeycloakUser | null = null;

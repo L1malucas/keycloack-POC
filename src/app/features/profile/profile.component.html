@@ -78,13 +78,28 @@
     </button>
   </div>
 
-  <div style="margin-top: 20px; padding: 15px; background-color: #f8f9fa; border-left: 4px solid #007bff;">
-    <h4>Informacoes sobre Tokens</h4>
-    <ul style="margin: 10px 0; padding-left: 20px;">
-      <li>Os tokens sao atualizados automaticamente a cada 60 segundos</li>
-      <li>O Access Token expira em 5 minutos (configuravel no Keycloak)</li>
-      <li>O Refresh Token permite renovar o Access Token</li>
-      <li>Todos os tokens sao armazenados em memoria (nao em cookies ou localStorage)</li>
-    </ul>
   </div>
+
+  <app-flow-explanation title="Fluxo: Refresh Automatico de Tokens" [defaultOpen]="false">
+    <p style="margin-bottom: 10px;"><strong>Como funciona o refresh automatico:</strong></p>
+    <ol style="margin: 10px 0; padding-left: 20px;">
+      <li>A cada 60 segundos, Angular verifica se o token expira em menos de 70s</li>
+      <li>Se estiver proximo da expiracao, envia o refresh_token para Keycloak</li>
+      <li>Keycloak valida o refresh_token</li>
+      <li>Se valido, Keycloak gera um novo access_token</li>
+      <li>Angular atualiza o token em memoria</li>
+      <li>Processo continua automaticamente enquanto voce usa a aplicacao</li>
+      <li>Se refresh falhar, voce e deslogado automaticamente</li>
+    </ol>
+    <div style="margin-top: 10px; padding: 10px; background-color: #e7f3ff; border-left: 4px solid #007bff;">
+      <p style="margin: 0;"><strong>Informacoes importantes:</strong></p>
+      <ul style="margin: 10px 0; padding-left: 20px;">
+        <li>Access Token expira em 5 minutos (padrao Keycloak)</li>
+        <li>Refresh Token expira em 30 minutos (padrao Keycloak)</li>
+        <li>Tokens armazenados apenas em memoria (nao persiste no navegador)</li>
+        <li>Fechar aba/navegador remove tokens</li>
+      </ul>
+    </div>
+    <app-mermaid-diagram [diagram]="refreshTokenDiagram"></app-mermaid-diagram>
+  </app-flow-explanation>
 </div>

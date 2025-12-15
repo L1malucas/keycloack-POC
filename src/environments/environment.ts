@@ -1,8 +1,9 @@
 export const environment = {
-  production: false,
+  production: true,
   keycloak: {
     url: 'http://localhost:8080',
     realm: 'keycloak-poc',
     clientId: 'angular-client'
-  }
+  },
+  appUrl: 'https://keycloackpoc.vercel.app'
 };

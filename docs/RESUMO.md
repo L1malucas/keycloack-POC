@@ -149,8 +149,8 @@ Realm: keycloak-poc
 Client: angular-client
   - Type: OpenID Connect
   - Client authentication: OFF
-  - Valid redirect URIs: http://localhost:4200/*
-  - Web origins: http://localhost:4200
+  - Valid redirect URIs: https://keycloackpoc.vercel.app/*
+  - Web origins: https://keycloackpoc.vercel.app
 
 Roles:
   - admin
@@ -196,7 +196,7 @@ docker run -p 8080:8080 \
 npm install
 npm start
 
-# 4. Testar em http://localhost:4200
+# 4. Testar em https://keycloackpoc.vercel.app
 ```
 
 ## Checklist de Funcionalidades

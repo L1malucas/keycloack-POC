@@ -88,13 +88,29 @@
     </div>
   </div>
 
-  <div style="margin-top: 30px; padding: 15px; background-color: #fff3cd; border-left: 4px solid #ffc107;">
-    <h4>Informacoes Importantes</h4>
-    <ul style="margin: 10px 0; padding-left: 20px;">
-      <li>Esta funcionalidade requer permissoes de administrador no Keycloak</li>
-      <li>O usuario autenticado deve ter a role "admin" ou permissoes equivalentes</li>
-      <li>As alteracoes sao aplicadas imediatamente no Keycloak</li>
-      <li>O usuario afetado precisara fazer logout/login para ver as novas roles</li>
-    </ul>
-  </div>
+  <app-flow-explanation title="Fluxo: Gerenciamento de Roles" [defaultOpen]="false">
+    <p style="margin-bottom: 10px;"><strong>Como funciona a gestao de roles:</strong></p>
+    <ol style="margin: 10px 0; padding-left: 20px;">
+      <li>Voce (admin) acessa esta pagina</li>
+      <li>adminGuard verifica se voce tem role "admin"</li>
+      <li>Angular busca lista de usuarios via Admin API</li>
+      <li>Keycloak valida seu token e retorna usuarios</li>
+      <li>Voce seleciona um usuario da lista</li>
+      <li>Angular busca as roles atuais desse usuario</li>
+      <li>Voce marca/desmarca roles usando checkboxes</li>
+      <li>Angular envia POST (adicionar) ou DELETE (remover) para Keycloak</li>
+      <li>Keycloak atualiza as role-mappings do usuario</li>
+      <li>Feedback de sucesso/erro e exibido</li>
+    </ol>
+    <div style="margin-top: 10px; padding: 10px; background-color: #fff3cd; border-left: 4px solid #ffc107;">
+      <p style="margin: 0;"><strong>Informacoes Importantes:</strong></p>
+      <ul style="margin: 10px 0; padding-left: 20px;">
+        <li>Requer role "admin" no Keycloak</li>
+        <li>Alteracoes aplicadas imediatamente no Keycloak</li>
+        <li>Usuario afetado precisa fazer logout/login para ver novas roles</li>
+        <li>Token Bearer e validado em cada requisicao</li>
+      </ul>
+    </div>
+    <app-mermaid-diagram [diagram]="adminFlowDiagram"></app-mermaid-diagram>
+  </app-flow-explanation>
 </div>

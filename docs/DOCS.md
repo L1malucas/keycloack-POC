@@ -161,8 +161,8 @@ Realm name: keycloak-poc
 ```yaml
 Client ID: angular-client
 Client authentication: OFF
-Valid redirect URIs: http://localhost:4200/*
-Web origins: http://localhost:4200
+Valid redirect URIs: https://keycloackpoc.vercel.app/*
+Web origins: https://keycloackpoc.vercel.app
 ```
 
 ### 3. Criar Roles
@@ -291,14 +291,14 @@ npm install
 npm start
 
 # Acessar
-http://localhost:4200
+https://keycloackpoc.vercel.app
 ```
 
 ## Testar Funcionalidades
 
 ### Login Admin
 ```
-http://localhost:4200 → Fazer Login
+https://keycloackpoc.vercel.app → Fazer Login
 Credenciais: admin / admin123
 Acessar: /, /profile, /admin
 ```

@@ -1,12 +1,48 @@
 import { Component } from '@angular/core';
 import { AuthService } from '../../core/services/auth.service';
+import { MermaidDiagramComponent } from '../../core/components/mermaid-diagram.component';
+import { FlowExplanationComponent } from '../../core/components/flow-explanation.component';
 
 @Component({
   selector: 'app-login',
   standalone: true,
+  imports: [MermaidDiagramComponent, FlowExplanationComponent],
   templateUrl: './login.component.html'
 })
 export class LoginComponent {
+  loginFlowDiagram = `
+sequenceDiagram
+    actor Usuario
+    participant Angular
+    participant Keycloak
+
+    Usuario->>Angular: Clica Login
+    Angular->>Keycloak: Redireciona
+    Usuario->>Keycloak: Insere credenciais
+    Keycloak->>Keycloak: Valida
+    Keycloak->>Angular: Redireciona com code
+    Angular->>Keycloak: Troca code por token
+    Keycloak->>Angular: access_token + refresh_token
+    Angular->>Usuario: Dashboard
+  `;
+
+  googleFlowDiagram = `
+sequenceDiagram
+    actor Usuario
+    participant Angular
+    participant Keycloak
+    participant Google
+
+    Usuario->>Angular: Login com Google
+    Angular->>Keycloak: idpHint=google
+    Keycloak->>Google: OAuth redirect
+    Usuario->>Google: Autentica
+    Google->>Keycloak: Token Google
+    Keycloak->>Keycloak: Cria/atualiza usuario
+    Keycloak->>Angular: access_token
+    Angular->>Usuario: Dashboard
+  `;
+
   constructor(private authService: AuthService) {}
 
   login(): void {

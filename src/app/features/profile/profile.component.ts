@@ -3,14 +3,32 @@ import { CommonModule } from '@angular/common';
 import { RouterLink } from '@angular/router';
 import { AuthService } from '../../core/services/auth.service';
 import { UserProfile } from '../../core/models/user.model';
+import { MermaidDiagramComponent } from '../../core/components/mermaid-diagram.component';
+import { FlowExplanationComponent } from '../../core/components/flow-explanation.component';
 
 @Component({
   selector: 'app-profile',
   standalone: true,
-  imports: [CommonModule, RouterLink],
+  imports: [CommonModule, RouterLink, MermaidDiagramComponent, FlowExplanationComponent],
   templateUrl: './profile.component.html'
 })
 export class ProfileComponent implements OnInit {
+  refreshTokenDiagram = `
+sequenceDiagram
+    participant Angular
+    participant Keycloak
+
+    Note over Angular: Timer 60s
+    Angular->>Angular: Token expira em 70s?
+    Angular->>Keycloak: POST /token (refresh_token)
+    Keycloak->>Keycloak: Valida refresh_token
+    Keycloak->>Angular: Novo access_token
+    Angular->>Angular: Atualiza em memoria
+
+    Note over Angular: Se falhar
+    Angular->>Angular: logout()
+  `;
+
   userProfile: UserProfile | null = null;
   token: string | undefined;
   refreshToken: string | undefined;
