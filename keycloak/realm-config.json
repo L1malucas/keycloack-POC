@@ -4,6 +4,8 @@
   "displayNameHtml": "Keycloak Proof of Concept - Authentication System",
   "enabled": true,
   "loginTheme": "custom",
+  "accountTheme": "custom",
+  "emailTheme": "custom",
   "sslRequired": "external",
   "registrationAllowed": true,
   "registrationEmailAsUsername": false,
