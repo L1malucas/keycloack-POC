@@ -56,7 +56,7 @@
                                                 </div>
                                             </div>
 
-                                            <#if realm.rememberMe && !usernameHidden>
+                                            <#if realm.rememberMe && !(usernameHidden!false)>
                                             <div class="flex items-center gap-1 sm:gap-1.5 md:gap-2 px-0 py-0.5 sm:py-1 md:py-1.5 lg:py-2">
                                                 <input tabindex="3" id="rememberMe" name="rememberMe" type="checkbox" checked class="w-3.5 h-3.5 sm:w-4 sm:h-4 md:w-5 md:h-5 lg:w-6 lg:h-6 rounded border-2 border-[var(--cin-text-primary)] text-[var(--cin-text-primary)] focus:ring-2 focus:ring-[var(--cin-primary-light)] bg-[var(--cin-white)] shrink-0 cursor-pointer">
                                                 <label for="rememberMe" class="text-[0.5rem] sm:text-[0.625rem] md:text-xs lg:text-sm text-[var(--cin-text-tertiary)] cursor-pointer break-words select-none">${msg("rememberMe")}</label>
