@@ -4,6 +4,9 @@ FROM quay.io/keycloak/keycloak:23.0.4
 ENV KEYCLOAK_ADMIN=admin
 ENV KEYCLOAK_ADMIN_PASSWORD=admin
 
+# Configuracao de locale padrao para pt-BR
+ENV KC_SPI_THEME_DEFAULT_LOCALE=pt-BR
+
 # Configuracoes para producao
 ENV KC_HEALTH_ENABLED=true
 ENV KC_METRICS_ENABLED=true

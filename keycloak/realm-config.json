@@ -10,14 +10,13 @@
   "registrationAllowed": true,
   "registrationEmailAsUsername": false,
   "rememberMe": true,
-  "verifyEmail": true,
+  "verifyEmail": false,
   "loginWithEmailAllowed": true,
   "duplicateEmailsAllowed": false,
   "resetPasswordAllowed": true,
   "editUsernameAllowed": true,
   "bruteForceProtected": true,
   "permanentLockout": false,
-
   "defaultSignatureAlgorithm": "RS256",
   "revokeRefreshToken": false,
   "refreshTokenMaxReuse": 0,
@@ -44,16 +43,16 @@
   "smtpServer": {
     "password": "Renova@2024",
     "replyToDisplayName": "",
-    "starttls": "true",
+    "starttls": "false",
     "auth": "true",
-    "port": "587",
+    "port": "465",
     "host": "smtps.uhserver.com",
     "replyTo": "",
-    "from": "renova-sta@renova.net.br",
-    "fromDisplayName": "Keycloak POC",
+    "from": "autenticador@renova.net.br",
+    "fromDisplayName": "",
     "envelopeFrom": "",
-    "ssl": "false",
-    "user": "renova-sta@renova.net.br"
+    "ssl": "true",
+    "user": "autenticador@renova.net.br"
   },
   "eventsEnabled": true,
   "eventsExpiration": 172800,
@@ -251,16 +250,20 @@
       "adminUrl": "",
       "redirectUris": [
         "https://keycloackpoc.vercel.app/*",
+        "https://keycloackpoc-*.vercel.app/*",
+        "https://*-l1malucas-projects.vercel.app/*",
         "http://localhost:4200/*"
       ],
       "webOrigins": [
         "https://keycloackpoc.vercel.app",
+        "https://keycloackpoc-*.vercel.app",
+        "https://*-l1malucas-projects.vercel.app",
         "http://localhost:4200",
         "+"
       ],
       "attributes": {
         "pkce.code.challenge.method": "S256",
-        "post.logout.redirect.uris": "https://keycloackpoc.vercel.app/*\nhttp://localhost:4200/*",
+        "post.logout.redirect.uris": "https://keycloackpoc.vercel.app/*\nhttps://keycloackpoc-*.vercel.app/*\nhttps://*-l1malucas-projects.vercel.app/*\nhttp://localhost:4200/*",
         "backchannel.logout.session.required": "true",
         "backchannel.logout.revoke.offline.tokens": "false",
         "access.token.lifespan": "",
