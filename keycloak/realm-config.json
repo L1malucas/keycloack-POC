@@ -4,7 +4,7 @@
   "displayNameHtml": "Keycloak POC - Sistema de Autenticação",
   "enabled": true,
   "loginTheme": "keycloak",
-  "accountTheme": "keycloak",
+  "accountTheme": "keycloak.v2",
   "emailTheme": "keycloak",
   "sslRequired": "external",
   "registrationAllowed": true,
@@ -513,7 +513,7 @@
   ],
   "attributes": {
     "frontendUrl": "",
-    "userProfileEnabled": "true",
+    "userProfileEnabled": "false",
     "clientOfflineSessionMaxLifespan": "0",
     "clientSessionIdleTimeout": "0",
     "clientOfflineSessionIdleTimeout": "0",

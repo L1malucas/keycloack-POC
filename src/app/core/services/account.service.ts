@@ -66,6 +66,11 @@ export class AccountService {
    * Esta API permite que usuários atualizem seus próprios dados
    */
   updateProfile(profile: Partial<AccountProfile>): Observable<any> {
+    const userId = this.authService.getUserProfile()?.sub;
+    if (!userId) {
+      throw new Error('User profile not loaded');
+    }
+
     const accountApiUrl = `${environment.keycloak.url}/realms/${environment.keycloak.realm}/account`;
 
     return this.http.post<any>(accountApiUrl, profile, {
@@ -75,17 +80,14 @@ export class AccountService {
 
   /**
    * Atualiza atributos customizados do usuário
-   * Usa a Admin API do Keycloak (usuário precisa ter permissão manage-users)
+   * Usa a Account REST API que permite usuários atualizarem seus próprios dados
    */
   updateAttributes(attributes: Record<string, string[]>): Observable<void> {
-    const userId = this.authService.getUserProfile()?.sub;
     const currentProfile = this.authService.getUserProfile();
 
-    if (!userId || !currentProfile) {
+    if (!currentProfile) {
       throw new Error('User profile not loaded');
     }
-
-    const adminApiUrl = `${environment.keycloak.url}/admin/realms/${environment.keycloak.realm}/users/${userId}`;
 
     const payload = {
       firstName: currentProfile.given_name,
@@ -97,11 +99,10 @@ export class AccountService {
       }
     };
 
-    console.log('📤 Atualizando usuário via Admin API:', adminApiUrl);
+    console.log('📤 Atualizando atributos do usuário via Account API');
+    console.log('Payload:', payload);
 
-    return this.http.put<void>(adminApiUrl, payload, {
-      headers: this.getHeaders()
-    });
+    return this.updateProfile(payload);
   }
 
   /**
