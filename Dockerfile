@@ -16,9 +16,6 @@ ENV KC_CACHE=local
 # Copiar arquivo de configuracao do realm
 COPY keycloak/realm-config.json /opt/keycloak/data/import/realm-config.json
 
-# Copiar temas customizados
-COPY keycloak/themes/ /opt/keycloak/themes/
-
 # Build do Keycloak com configuracoes para cache local
 RUN /opt/keycloak/bin/kc.sh build --cache=local
 
