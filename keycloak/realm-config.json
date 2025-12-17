@@ -1,7 +1,7 @@
 {
   "realm": "keycloak-poc",
   "displayName": "Keycloak POC",
-  "displayNameHtml": "Keycloak Proof of Concept - Authentication System",
+  "displayNameHtml": "Keycloak POC - Sistema de Autenticação",
   "enabled": true,
   "loginTheme": "keycloak",
   "accountTheme": "keycloak",
@@ -89,8 +89,7 @@
   "adminEventsDetailsEnabled": true,
   "internationalizationEnabled": true,
   "supportedLocales": [
-    "pt-BR",
-    "en"
+    "pt-BR"
   ],
   "defaultLocale": "pt-BR",
   "otpPolicyType": "totp",
