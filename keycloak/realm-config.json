@@ -282,7 +282,131 @@
         "phone",
         "offline_access",
         "microprofile-jwt"
-      ]
+      ],
+      "roles": {
+        "client": [
+          {
+            "name": "view_users",
+            "description": "Permite visualizar usuários do sistema",
+            "composite": false,
+            "clientRole": true
+          },
+          {
+            "name": "create_users",
+            "description": "Permite criar novos usuários",
+            "composite": false,
+            "clientRole": true
+          },
+          {
+            "name": "edit_users",
+            "description": "Permite editar usuários existentes",
+            "composite": false,
+            "clientRole": true
+          },
+          {
+            "name": "delete_users",
+            "description": "Permite excluir usuários",
+            "composite": false,
+            "clientRole": true
+          },
+          {
+            "name": "view_reports",
+            "description": "Permite visualizar relatórios",
+            "composite": false,
+            "clientRole": true
+          },
+          {
+            "name": "create_reports",
+            "description": "Permite criar relatórios",
+            "composite": false,
+            "clientRole": true
+          },
+          {
+            "name": "manage_settings",
+            "description": "Permite gerenciar configurações do sistema",
+            "composite": false,
+            "clientRole": true
+          },
+          {
+            "name": "view_municipio",
+            "description": "Permite visualizar municípios",
+            "composite": false,
+            "clientRole": true
+          },
+          {
+            "name": "create_municipio",
+            "description": "Permite criar municípios",
+            "composite": false,
+            "clientRole": true
+          },
+          {
+            "name": "edit_municipio",
+            "description": "Permite editar municípios",
+            "composite": false,
+            "clientRole": true
+          },
+          {
+            "name": "delete_municipio",
+            "description": "Permite excluir municípios",
+            "composite": false,
+            "clientRole": true
+          },
+          {
+            "name": "view_organization",
+            "description": "Permite visualizar organizações",
+            "composite": false,
+            "clientRole": true
+          },
+          {
+            "name": "create_organization",
+            "description": "Permite criar organizações",
+            "composite": false,
+            "clientRole": true
+          },
+          {
+            "name": "edit_organization",
+            "description": "Permite editar organizações",
+            "composite": false,
+            "clientRole": true
+          },
+          {
+            "name": "delete_organization",
+            "description": "Permite excluir organizações",
+            "composite": false,
+            "clientRole": true
+          },
+          {
+            "name": "approve_documents",
+            "description": "Permite aprovar documentos",
+            "composite": false,
+            "clientRole": true
+          },
+          {
+            "name": "reject_documents",
+            "description": "Permite rejeitar documentos",
+            "composite": false,
+            "clientRole": true
+          },
+          {
+            "name": "financial_access",
+            "description": "Acesso ao módulo financeiro",
+            "composite": false,
+            "clientRole": true
+          },
+          {
+            "name": "audit_access",
+            "description": "Acesso ao módulo de auditoria",
+            "composite": false,
+            "clientRole": true
+          },
+          {
+            "name": "support_access",
+            "description": "Acesso ao módulo de suporte",
+            "composite": false,
+            "clientRole": true
+          }
+        ]
+      }
     }
   ],
   "clientScopes": [

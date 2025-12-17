@@ -14,13 +14,18 @@ ENV KC_HTTP_RELATIVE_PATH=/
 ENV KC_HOSTNAME_STRICT=false
 ENV KC_PROXY=edge
 ENV KC_HTTP_ENABLED=true
-ENV KC_CACHE=local
+
+# Configuracoes de banco de dados (variaveis serao fornecidas em runtime)
+# KC_DB=postgres
+# KC_DB_URL=postgresql://keycloak_db_dwhh_user:ydvc7e3a1yiV9crM94e4q0WsQ9QwMRUu@dpg-d51amubuibrs73bao9pg-a/keycloak_db_dwhh
+# KC_DB_USERNAME=keycloak_db_dwh_user
+# KC_DB_PASSWORD=ydvc7e3a1yiV9crM94e4q0WsQ9QwMRUu
 
 # Copiar arquivo de configuracao do realm
 COPY keycloak/realm-config.json /opt/keycloak/data/import/realm-config.json
 
-# Build do Keycloak com configuracoes para cache local
-RUN /opt/keycloak/bin/kc.sh build --cache=local
+# Build do Keycloak com suporte a PostgreSQL
+RUN /opt/keycloak/bin/kc.sh build --db=postgres
 
 # Expor porta
 EXPOSE 8080
