@@ -142,3 +142,139 @@ curl -X GET "https://keycloack-poc.onrender.com/admin/realms/keycloak-poc" \
   -H "Authorization: Bearer YOUR_TOKEN" \
   > keycloak/backup-$(date +%Y%m%d).json
 ```
+
+## Tema Customizado
+
+Este projeto inclui um tema customizado para a tela de login do Keycloak, inspirado no design moderno com layout split-screen.
+
+### Estrutura do Tema
+
+```
+keycloak/themes/custom/
+├── login/
+│   ├── login.ftl                    # Template da página de login
+│   ├── template.ftl                 # Template base
+│   ├── theme.properties             # Configurações do tema
+│   └── resources/
+│       ├── css/
+│       │   └── styles.css          # Estilos customizados
+│       ├── js/
+│       │   └── script.js           # Scripts JavaScript
+│       └── images/                 # Imagens do tema
+├── account/
+│   └── theme.properties            # Tema da conta do usuário
+└── email/
+    └── theme.properties            # Tema dos emails
+```
+
+### Características do Tema
+
+- **Layout Split-Screen**: Lado esquerdo azul com informações de boas-vindas e lado direito branco com o formulário de login
+- **Design Moderno**: Interface limpa e profissional
+- **Responsivo**: Adaptável para diferentes tamanhos de tela (desktop, tablet, mobile)
+- **Elementos Visuais**:
+  - Ícone de impressão digital animado
+  - Ícones nos campos de entrada
+  - Botões com efeitos hover
+  - Gradiente de fundo no lado azul
+
+### Configuração
+
+O tema customizado já está configurado no `realm-config.json`:
+
+```json
+{
+  "loginTheme": "custom",
+  "accountTheme": "custom",
+  "emailTheme": "custom"
+}
+```
+
+### Como Aplicar o Tema
+
+#### 1. Build e Deploy Automático
+
+Quando você faz build e deploy do Docker container, o tema é automaticamente copiado:
+
+```bash
+# Build da imagem Docker
+docker build -t keycloak-poc .
+
+# Run do container
+docker run -p 8080:8080 keycloak-poc
+```
+
+#### 2. Aplicar Manualmente no Admin Console
+
+Se o tema não estiver aplicado automaticamente:
+
+1. Acesse: `http://localhost:8080/admin`
+2. Login com admin/admin
+3. Selecione o realm `keycloak-poc`
+4. Vá em: **Realm Settings** → **Themes**
+5. Configure:
+   - **Login Theme**: custom
+   - **Account Theme**: custom
+   - **Email Theme**: custom
+6. Clique em **Save**
+
+### Personalizar o Tema
+
+#### Cores
+
+Edite `/keycloak/themes/custom/login/resources/css/styles.css`:
+
+```css
+:root {
+    --primary-blue: #2B579A;      /* Cor azul principal */
+    --secondary-blue: #3D6DB5;    /* Cor azul secundária */
+    --white: #FFFFFF;
+    --light-gray: #F5F5F5;
+    --text-dark: #333333;
+    --text-light: #666666;
+    --border-color: #E0E0E0;
+}
+```
+
+#### Textos
+
+Edite `/keycloak/themes/custom/login/login.ftl` para alterar:
+
+- Mensagens de boas-vindas
+- Textos informativos
+- Placeholders dos campos
+
+#### Logo e Ícones
+
+Substitua as imagens em:
+- `/keycloak/themes/custom/login/resources/images/`
+
+### Testar Localmente
+
+1. Faça as alterações no tema
+2. Rebuild da imagem Docker:
+   ```bash
+   docker build -t keycloak-poc .
+   ```
+3. Execute o container:
+   ```bash
+   docker run -p 8080:8080 keycloak-poc
+   ```
+4. Acesse: `http://localhost:8080/realms/keycloak-poc/account`
+5. Faça logout e veja a tela de login customizada
+
+### Troubleshooting
+
+#### Tema não aparece
+- Verifique se o Dockerfile copiou os arquivos: `COPY keycloak/themes /opt/keycloak/themes`
+- Rebuild da imagem Docker
+- Limpe o cache do navegador (Ctrl+Shift+R)
+
+#### Estilos não aplicados
+- Verifique o caminho em `theme.properties`: `styles=css/styles.css`
+- Verifique se o arquivo CSS existe
+- Use as ferramentas de desenvolvedor do navegador para debugar
+
+#### Erro 404 em recursos
+- Verifique os caminhos das imagens no `login.ftl`
+- Certifique-se que os arquivos existem em `resources/images/`

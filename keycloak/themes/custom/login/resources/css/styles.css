@@ -1,21 +1,368 @@
+/* Color Variables */
 :root {
-    --cin-background: #f0f2f5;
-    --cin-primary: #007bff;
-    --cin-primary-light: #66b3ff;
-    --cin-primary-dark: #0056b3;
-    --cin-primary-darker: #004085;
-    --cin-text-primary: #ffffff;
-    --cin-text-secondary: #495057;
-    --cin-text-tertiary: #f8f9fa;
-    --cin-text-button: #ffffff;
-    --cin-white: #ffffff;
+    --primary-blue: #2B579A;
+    --secondary-blue: #3D6DB5;
+    --white: #FFFFFF;
+    --light-gray: #F5F5F5;
+    --text-dark: #333333;
+    --text-light: #666666;
+    --border-color: #E0E0E0;
 }
 
-/* Adicionando para evitar que o tailwind sobrescreva o registrationLayout */
+/* Reset and Base Styles */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
 body {
-    background-color: var(--cin-background);
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    background-color: var(--light-gray);
+    overflow-x: hidden;
 }
 
-#kc-header, .login-pf-page .login-pf-header, .login-pf-page .login-pf-social-section {
-    display: none;
+/* Hide Keycloak default elements */
+#kc-header,
+.login-pf-page .login-pf-header,
+.login-pf-page .login-pf-social-section,
+#kc-content-wrapper {
+    display: block !important;
+}
+
+/* Main Container */
+.login-container {
+    display: flex;
+    min-height: 100vh;
+    width: 100%;
+}
+
+/* Left Side - Blue Section */
+.left-side {
+    flex: 1;
+    background: linear-gradient(135deg, var(--primary-blue) 0%, var(--secondary-blue) 100%);
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding: 60px;
+    color: var(--white);
+    position: relative;
+}
+
+.left-content {
+    display: flex;
+    flex-direction: column;
+    gap: 60px;
+    align-items: flex-start;
+}
+
+.fingerprint-icon {
+    width: 250px;
+    height: 250px;
+}
+
+.fingerprint-icon svg {
+    width: 100%;
+    height: 100%;
+}
+
+.welcome-text h1 {
+    font-size: 48px;
+    font-weight: 600;
+    margin-bottom: 20px;
+    line-height: 1.2;
+}
+
+.welcome-text p {
+    font-size: 18px;
+    line-height: 1.6;
+    opacity: 0.95;
+    max-width: 500px;
+}
+
+.bottom-text {
+    padding: 30px;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 20px;
+    text-align: center;
+}
+
+.bottom-text p {
+    font-size: 16px;
+    font-weight: 500;
+}
+
+/* Right Side - White Section */
+.right-side {
+    flex: 1;
+    background: var(--white);
+    display: flex;
+    flex-direction: column;
+    padding: 40px;
+    position: relative;
+}
+
+.logo-icon {
+    position: absolute;
+    top: 40px;
+    right: 40px;
+}
+
+.form-content {
+    max-width: 480px;
+    width: 100%;
+    margin: auto;
+    padding: 20px;
+}
+
+.form-header {
+    margin-bottom: 40px;
+}
+
+.form-header h2 {
+    font-size: 32px;
+    font-weight: 600;
+    color: var(--text-dark);
+    margin-bottom: 10px;
+}
+
+.form-header p {
+    font-size: 16px;
+    color: var(--text-light);
+}
+
+/* Form Styles */
+.form-group {
+    margin-bottom: 24px;
+}
+
+.form-group label {
+    display: block;
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--text-dark);
+    margin-bottom: 8px;
+}
+
+.input-wrapper {
+    position: relative;
+    display: flex;
+    align-items: center;
+    background: var(--light-gray);
+    border-radius: 8px;
+    padding: 12px 16px;
+    border: 1px solid var(--border-color);
+    transition: all 0.3s ease;
+}
+
+.input-wrapper:focus-within {
+    border-color: var(--primary-blue);
+    box-shadow: 0 0 0 3px rgba(43, 87, 154, 0.1);
+}
+
+.input-icon {
+    margin-right: 12px;
+    flex-shrink: 0;
+}
+
+.input-wrapper input {
+    flex: 1;
+    border: none;
+    background: transparent;
+    font-size: 16px;
+    color: var(--text-dark);
+    outline: none;
+}
+
+.input-wrapper input::placeholder {
+    color: var(--text-light);
+    opacity: 0.6;
+}
+
+/* Form Options */
+.form-options {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 32px;
+}
+
+.remember-me {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.remember-me input[type="checkbox"] {
+    width: 18px;
+    height: 18px;
+    cursor: pointer;
+    accent-color: var(--primary-blue);
+}
+
+.remember-me label {
+    font-size: 14px;
+    color: var(--text-dark);
+    cursor: pointer;
+    margin: 0;
+}
+
+.forgot-password {
+    font-size: 14px;
+    color: var(--primary-blue);
+    text-decoration: none;
+    transition: color 0.3s ease;
+}
+
+.forgot-password:hover {
+    color: var(--secondary-blue);
+    text-decoration: underline;
+}
+
+/* Login Button */
+.login-button {
+    width: 100%;
+    padding: 16px;
+    background: var(--primary-blue);
+    color: var(--white);
+    border: none;
+    border-radius: 8px;
+    font-size: 16px;
+    font-weight: 600;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    margin-bottom: 24px;
+}
+
+.login-button:hover {
+    background: var(--secondary-blue);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(43, 87, 154, 0.3);
+}
+
+.login-button:active {
+    transform: translateY(0);
+}
+
+/* Footer Text */
+.footer-text {
+    text-align: center;
+    padding-top: 24px;
+    border-top: 1px solid var(--border-color);
+}
+
+.footer-text p {
+    font-size: 13px;
+    color: var(--text-light);
+    line-height: 1.6;
+}
+
+/* Responsive Design */
+@media (max-width: 1024px) {
+    .login-container {
+        flex-direction: column;
+    }
+
+    .left-side {
+        min-height: 40vh;
+        padding: 40px;
+    }
+
+    .left-content {
+        gap: 30px;
+    }
+
+    .fingerprint-icon {
+        width: 150px;
+        height: 150px;
+    }
+
+    .welcome-text h1 {
+        font-size: 36px;
+    }
+
+    .welcome-text p {
+        font-size: 16px;
+    }
+
+    .right-side {
+        padding: 30px;
+    }
+
+    .logo-icon {
+        top: 20px;
+        right: 20px;
+    }
+
+    .logo-icon svg {
+        width: 50px;
+        height: 50px;
+    }
+}
+
+@media (max-width: 768px) {
+    .left-side {
+        padding: 30px;
+    }
+
+    .welcome-text h1 {
+        font-size: 28px;
+    }
+
+    .welcome-text p {
+        font-size: 14px;
+    }
+
+    .fingerprint-icon {
+        width: 120px;
+        height: 120px;
+    }
+
+    .form-header h2 {
+        font-size: 24px;
+    }
+
+    .form-content {
+        padding: 10px;
+    }
+
+    .form-options {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 12px;
+    }
+}
+
+@media (max-width: 480px) {
+    .left-side {
+        padding: 20px;
+    }
+
+    .right-side {
+        padding: 20px;
+    }
+
+    .welcome-text h1 {
+        font-size: 24px;
+    }
+
+    .form-header h2 {
+        font-size: 20px;
+    }
+
+    .fingerprint-icon {
+        width: 100px;
+        height: 100px;
+    }
+
+    .bottom-text {
+        padding: 20px;
+    }
+
+    .bottom-text p {
+        font-size: 14px;
+    }
 }

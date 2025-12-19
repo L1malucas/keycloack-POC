@@ -24,6 +24,9 @@ ENV KC_HTTP_ENABLED=true
 # Copiar arquivo de configuracao do realm
 COPY keycloak/realm-config.json /opt/keycloak/data/import/realm-config.json
 
+# Copiar temas customizados
+COPY keycloak/themes /opt/keycloak/themes
+
 # Build do Keycloak com suporte a PostgreSQL
 RUN /opt/keycloak/bin/kc.sh build --db=postgres
 
