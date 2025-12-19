@@ -453,3 +453,599 @@ body {
     margin-top: 6px;
     font-weight: 500;
 }
+
+/* ========================================
+   DETRAN LOGIN DESIGN
+   ======================================== */
+
+.detran-login-container {
+    min-height: 100vh;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background-color: #f5f5f5;
+    position: relative;
+    padding: 16px;
+}
+
+.detran-background-image {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    z-index: 0;
+}
+
+.detran-background-overlay {
+    position: absolute;
+    inset: 0;
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: 1;
+}
+
+.detran-login-form {
+    position: relative;
+    z-index: 2;
+    background: white;
+    border-radius: 16px;
+    padding: 40px 32px;
+    width: 100%;
+    max-width: 450px;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+}
+
+.detran-logo {
+    width: auto;
+    height: 60px;
+    object-contain;
+    margin: 0 auto;
+}
+
+.detran-title {
+    text-align: center;
+    font-size: 20px;
+    font-weight: 600;
+    color: #003366;
+    margin: 0;
+}
+
+.detran-form-field {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.detran-label {
+    font-size: 14px;
+    font-weight: 500;
+    color: #333;
+}
+
+.detran-input-secondary,
+.detran-input-secondary-password {
+    width: 100%;
+    padding: 12px 16px;
+    background: #f8f9fa;
+    border: 2px solid #e0e0e0;
+    border-radius: 8px;
+    font-size: 14px;
+    color: #333;
+    transition: all 0.3s ease;
+}
+
+.detran-input-secondary:focus,
+.detran-input-secondary-password:focus {
+    outline: none;
+    border-color: #003366;
+    background: white;
+}
+
+.detran-password-field {
+    position: relative;
+}
+
+.detran-password-wrapper {
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+
+.detran-eye-icon {
+    position: absolute;
+    right: 12px;
+    top: 50%;
+    transform: translateY(-50%);
+    cursor: pointer;
+    color: #666;
+    display: flex;
+    align-items: center;
+}
+
+.detran-eye-icon:hover {
+    color: #003366;
+}
+
+.detran-forget-password {
+    font-size: 14px;
+    color: #003366;
+    text-decoration: none;
+    transition: color 0.3s ease;
+    text-align: right;
+}
+
+.detran-forget-password:hover {
+    color: #0055aa;
+    text-decoration: underline;
+}
+
+.detran-captcha {
+    display: flex;
+    justify-content: center;
+}
+
+.detran-recaptcha-placeholder {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 16px;
+    border: 2px solid #e0e0e0;
+    border-radius: 4px;
+    background: #f8f9fa;
+}
+
+.detran-recaptcha-placeholder input[type="checkbox"] {
+    width: 24px;
+    height: 24px;
+    cursor: pointer;
+}
+
+.detran-recaptcha-placeholder label {
+    font-size: 14px;
+    color: #333;
+    cursor: pointer;
+    margin: 0;
+}
+
+.recaptcha-logo {
+    width: 32px;
+    height: 32px;
+    margin-left: auto;
+}
+
+.detran-login-button {
+    width: 100%;
+    background: #003366;
+    color: white;
+    font-weight: 700;
+    padding: 14px 24px;
+    border-radius: 8px;
+    font-size: 16px;
+    border: none;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.detran-login-button:hover {
+    background: #0055aa;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 51, 102, 0.3);
+}
+
+.detran-divider {
+    height: 1px;
+    background: #e0e0e0;
+    width: 100%;
+}
+
+.detran-section-first-login {
+    text-align: center;
+}
+
+.detran-section-first-login p {
+    font-size: 14px;
+    color: #666;
+    margin: 4px 0;
+}
+
+.detran-section-first-login strong {
+    color: #003366;
+}
+
+.detran-first-login-link {
+    color: #003366;
+    text-decoration: none;
+    font-weight: 500;
+    cursor: pointer;
+    transition: color 0.3s ease;
+}
+
+.detran-first-login-link:hover {
+    color: #0055aa;
+    text-decoration: underline;
+}
+
+.detran-error-message {
+    display: block;
+    color: #dc3545;
+    font-size: 12px;
+    margin-top: 4px;
+}
+
+/* ========================================
+   CIN RESET PASSWORD DESIGN
+   ======================================== */
+
+.cin-reset-container {
+    min-height: 100vh;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background-color: #f0f4f8;
+    position: relative;
+    padding: 16px 24px;
+}
+
+.cin-main-card {
+    width: 100%;
+    max-width: min(95vw, 1140px);
+    aspect-ratio: auto;
+    border-radius: 30px;
+    position: relative;
+    overflow: hidden;
+    box-shadow: 0 25px 50px rgba(0, 0, 0, 0.15);
+}
+
+.cin-background-wrapper {
+    position: absolute;
+    inset: 0;
+}
+
+.cin-background-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.cin-background-overlay {
+    position: absolute;
+    inset: 0;
+    background-color: rgba(43, 87, 154, 0.6);
+}
+
+.cin-content {
+    position: relative;
+    z-index: 10;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    padding: 48px 64px;
+}
+
+.cin-header {
+    display: flex;
+    align-items: center;
+    gap: 24px;
+    margin-bottom: 48px;
+}
+
+.cin-security-icon {
+    width: 112px;
+    height: 112px;
+    flex-shrink: 0;
+}
+
+.cin-header-text {
+    display: flex;
+    flex-direction: column;
+}
+
+.cin-main-title {
+    font-size: 72px;
+    font-weight: 600;
+    color: white;
+    line-height: 1;
+    margin: 0;
+}
+
+.cin-subtitle {
+    font-size: 20px;
+    color: white;
+    margin-top: 8px;
+    white-space: nowrap;
+}
+
+.cin-main-area {
+    display: flex;
+    align-items: center;
+    gap: 64px;
+    flex: 1;
+}
+
+.cin-image-section {
+    position: relative;
+    width: 352px;
+    flex-shrink: 0;
+}
+
+.cin-image-wrapper {
+    position: relative;
+    border-radius: 24px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+    overflow: hidden;
+    height: 100%;
+    min-height: 420px;
+}
+
+.cin-recovery-image {
+    width: 100%;
+    height: 100%;
+    object-cover;
+    border-radius: 16px;
+}
+
+.cin-form-section {
+    width: 100%;
+    max-width: 528px;
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+    min-height: 420px;
+}
+
+.cin-form-header {
+    margin-bottom: 8px;
+}
+
+.cin-form-title {
+    font-size: 32px;
+    font-weight: 600;
+    color: white;
+    margin: 0 0 8px 0;
+}
+
+.cin-form-description {
+    font-size: 16px;
+    color: white;
+    margin: 4px 0;
+    white-space: nowrap;
+}
+
+.cin-form {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.cin-form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.cin-label {
+    font-size: 14px;
+    font-weight: 500;
+    color: rgba(255, 255, 255, 0.9);
+}
+
+.cin-input-wrapper {
+    width: 100%;
+    padding: 12px 16px;
+    background: white;
+    border-bottom: 2px solid #e8f4fd;
+    border-radius: 8px;
+    transition: all 0.3s ease;
+}
+
+.cin-input-wrapper:focus-within {
+    border-bottom-color: #2B579A;
+    box-shadow: 0 2px 8px rgba(43, 87, 154, 0.2);
+}
+
+.cin-input {
+    width: 100%;
+    background: transparent;
+    font-size: 16px;
+    color: #333;
+    border: none;
+    outline: none;
+}
+
+.cin-input::placeholder {
+    color: #999;
+    opacity: 0.6;
+}
+
+.cin-input-error {
+    border-bottom-color: #dc3545 !important;
+}
+
+.cin-error-message {
+    display: block;
+    color: #ffcccc;
+    font-size: 12px;
+    margin-top: 4px;
+}
+
+.cin-button-group {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    margin-top: 8px;
+}
+
+.cin-submit-button {
+    width: 100%;
+    background: #003366;
+    color: white;
+    font-weight: 700;
+    padding: 14px 24px;
+    border-radius: 8px;
+    font-size: 16px;
+    border: none;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.cin-submit-button:hover {
+    background: #0055aa;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 51, 102, 0.3);
+}
+
+.cin-back-link {
+    width: 100%;
+    color: white;
+    text-align: center;
+    font-size: 14px;
+    padding: 8px;
+    text-decoration: none;
+    transition: all 0.3s ease;
+}
+
+.cin-back-link:hover {
+    color: #e8f4fd;
+    text-decoration: underline;
+}
+
+.cin-info-text {
+    text-align: center;
+    color: white;
+    font-size: 14px;
+    padding-top: 8px;
+}
+
+.cin-timer {
+    font-weight: 600;
+}
+
+.cin-renova-logo {
+    position: absolute;
+    right: 48px;
+    top: 48px;
+    z-index: 11;
+}
+
+.cin-renova-image {
+    width: 64px;
+    height: 64px;
+    object-contain;
+}
+
+.cin-footer {
+    margin-top: 32px;
+}
+
+.cin-footer-text {
+    font-size: 14px;
+    color: #003366;
+    text-align: center;
+}
+
+/* Responsive para Design DETRAN */
+@media (max-width: 640px) {
+    .detran-login-form {
+        padding: 32px 24px;
+    }
+
+    .detran-logo {
+        height: 50px;
+    }
+
+    .detran-title {
+        font-size: 18px;
+    }
+}
+
+/* Responsive para Design CIN */
+@media (max-width: 1024px) {
+    .cin-main-area {
+        flex-direction: column;
+        gap: 32px;
+    }
+
+    .cin-image-section {
+        width: 256px;
+    }
+
+    .cin-image-wrapper {
+        min-height: 256px;
+    }
+
+    .cin-content {
+        padding: 32px 40px;
+    }
+
+    .cin-main-title {
+        font-size: 56px;
+    }
+
+    .cin-subtitle {
+        font-size: 16px;
+        white-space: normal;
+    }
+}
+
+@media (max-width: 768px) {
+    .cin-content {
+        padding: 24px;
+    }
+
+    .cin-header {
+        gap: 16px;
+        margin-bottom: 32px;
+    }
+
+    .cin-security-icon {
+        width: 80px;
+        height: 80px;
+    }
+
+    .cin-main-title {
+        font-size: 48px;
+    }
+
+    .cin-subtitle {
+        font-size: 14px;
+    }
+
+    .cin-form-title {
+        font-size: 24px;
+    }
+
+    .cin-renova-logo {
+        right: 24px;
+        top: 24px;
+    }
+
+    .cin-renova-image {
+        width: 48px;
+        height: 48px;
+    }
+}
+
+@media (max-width: 480px) {
+    .cin-main-card {
+        border-radius: 16px;
+    }
+
+    .cin-image-section {
+        width: 192px;
+    }
+
+    .cin-image-wrapper {
+        min-height: 192px;
+    }
+
+    .cin-main-title {
+        font-size: 36px;
+    }
+}
